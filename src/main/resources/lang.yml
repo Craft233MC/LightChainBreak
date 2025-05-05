@@ -1,0 +1,19 @@
+enabled: "<color:#c8f1ef>已开启连锁</color>"
+disabled: "<color:#c8f1ef>已关闭连锁</color>"
+
+running: "<color:#c8f1ef>正在运行LightChainBreak v%version%!</color>"
+reload: "<color:#c8f1ef>已重载配置文件!</color>"
+
+help:
+  reload:  "<color:#c8f1ef>重载配置文件</color>"
+  toggle:  "<color:#c8f1ef>切换连锁开关</color>"
+  about:  "<color:#c8f1ef>显示关于信息</color>"
+  help:  "<color:#c8f1ef>显示指令帮助</color>"
+
+about:
+  desc: "<color:#c8f1ef>一个简单的用于连锁破坏的插件</color>"
+  link: "<color:#c8f1ef>相关链接: </color>"
+
+error:
+  only-player: "<color:#c8f1ef>只有玩家才能使用此指令!</color>"
+  no-perms: "<color:#c8f1ef>你没有权限使用此指令!</color>"

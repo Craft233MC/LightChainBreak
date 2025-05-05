@@ -1,0 +1,58 @@
+# Max chain break block count at once
+max-break: 64
+
+# Should player need to be sneaking to enable chain break?
+sneaking-to-enable: true
+
+# Chain break groups
+# when player has one of the tools in the list, and the block is in the list, the chain break will be enabled
+groups:
+  mine:
+    # The permission required to use this group
+    # if set null, "" , none, NONE or keep empty, the permission will be ignored
+    permission: lightchainbreak.group.mine
+    tools:
+      - DIAMOND_PICKAXE
+      - IRON_PICKAXE
+      - GOLDEN_PICKAXE
+      - STONE_PICKAXE
+      - WOODEN_PICKAXE
+      - NETHERITE_PICKAXE
+    target:
+      - COAL_ORE
+      - DEEPSLATE_COAL_ORE
+      - IRON_ORE
+      - DEEPSLATE_IRON_ORE
+      - COPPER_ORE
+      - DEEPSLATE_COPPER_ORE
+      - GOLD_ORE
+      - DEEPSLATE_GOLD_ORE
+      - REDSTONE_ORE
+      - DEEPSLATE_REDSTONE_ORE
+      - EMERALD_ORE
+      - DEEPSLATE_EMERALD_ORE
+      - LAPIS_ORE
+      - DEEPSLATE_LAPIS_ORE
+      - DIAMOND_ORE
+      - DEEPSLATE_DIAMOND_ORE
+      - NETHER_GOLD_ORE
+      - NETHER_QUARTZ_ORE
+      - ANCIENT_DEBRIS
+  wood:
+    permission: lightchainbreak.group.wood
+    tools:
+      - DIAMOND_AXE
+      - IRON_AXE
+      - GOLDEN_AXE
+      - STONE_AXE
+      - WOODEN_AXE
+      - NETHERITE_AXE
+    target:
+      - OAK_LOG
+      - SPRUCE_LOG
+      - BIRCH_LOG
+      - JUNGLE_LOG
+      - ACACIA_LOG
+      - CHERRY_LOG
+      - DARK_OAK_LOG
+      - MANGROVE_LOG

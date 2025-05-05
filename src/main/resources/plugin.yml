@@ -1,0 +1,24 @@
+name: LightChainBreak
+version: '0.1'
+main: ink.neokoni.lightchainbreak.LightChainBreak
+api-version: '1.19'
+folia-supported: true
+authors: [Neokoni]
+commands:
+  lightchainbreak:
+    description: LightChainBreak
+    aliases: [lcb]
+    permission: lightchainbreak.help
+
+permissions:
+  lightchainbreak.toggle: {default: true}
+  lightchainbreak.about: {default: op}
+  lightchainbreak.help: {default: op}
+  lightchainbreak.reload: {default: op}
+  lightchainbreak.*:
+    default: op
+    children:
+      lightchainbreak.about: true
+      lightchainbreak.help: true
+      lightchainbreak.reload: true
+      lightchainbreak.toggle: true

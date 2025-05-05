@@ -1,0 +1,62 @@
+package ink.neokoni.lightchainbreak.utils;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.*;
+
+public class checker {
+    private final YamlConfiguration config = file.getConfig("config");
+    private final Set<String> skipPerms = Set.of("", "none", "NONE", "null");
+    public boolean isAllowed(Block block, ItemStack tool, Player p) {
+        Set<String> groups = config.getConfigurationSection("groups").getKeys(true);
+        Material blockType = block.getType();
+        Material toolType = tool.getType();
+        for(String group : groups){
+            if (group.contains(".")){
+                continue;
+            }
+
+            List<String> tools = config.getStringList("groups."+group+".tools");
+            List<String> target = config.getStringList("groups."+group+".target");
+
+            Set<Material> toolSet = new HashSet<>();
+            Set<Material> targetSet = new HashSet<>();
+            tools.forEach(m -> toolSet.add(Material.matchMaterial(m)));
+            target.forEach(m -> targetSet.add(Material.matchMaterial(m)));
+
+            if(toolSet.contains(toolType) && targetSet.contains(blockType) && hasPerms(p, group)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean hasPerms(Player p, String group){
+        String perms  = config.getString("groups."+group+".permission");
+        if (skipPerms.contains(perms) || perms.isEmpty() || perms==null){
+            return true;
+        }
+        return p.hasPermission(perms);
+    }
+
+    public boolean isMaxBlocks(int count){
+        return count >= config.getInt("max-break");
+    }
+
+    public boolean isPlayerEnabled(Player p){
+        YamlConfiguration playerData = file.getConfig("playerData");
+        return playerData.getBoolean( p.getUniqueId() + ".enabled");
+    }
+
+    public boolean isSneaking(Player p){
+        if(config.getBoolean("sneaking-to-enable")){
+            return !p.isSneaking();
+        }
+        return false;
+    }
+}
