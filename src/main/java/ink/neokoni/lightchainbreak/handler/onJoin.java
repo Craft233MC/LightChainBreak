@@ -15,7 +15,7 @@ public class onJoin implements Listener {
     public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent event) {
         Player player = event.getPlayer();
         YamlConfiguration data = file.getConfig("playerData");
-        if(data.getString(player.getUniqueId()+".enabled").isEmpty()){
+        if(data.getString(player.getUniqueId()+".enabled").isEmpty() || data.getString(player.getUniqueId()+".enabled")==null){
             data.set(player.getUniqueId()+".enabled", false);
             new file().saveConfig("playerData", data);
         }
