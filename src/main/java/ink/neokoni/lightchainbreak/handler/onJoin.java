@@ -11,11 +11,16 @@ public class onJoin implements Listener {
     public void register(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
+    private boolean isBoolean(String str) {
+        if(str==null) return false;
+        return str.equals("true") || str.equals("false");
+    }
     @EventHandler
     public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent event) {
         Player player = event.getPlayer();
         YamlConfiguration data = file.getConfig("playerData");
-        if(data.getString(player.getUniqueId()+".enabled").isEmpty() || data.getString(player.getUniqueId()+".enabled")==null){
+        if(!isBoolean(data.getString(player.getUniqueId()+".enabled"))){
             data.set(player.getUniqueId()+".enabled", false);
             new file().saveConfig("playerData", data);
         }
