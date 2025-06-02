@@ -1,7 +1,11 @@
 package ink.neokoni.lightchainbreak.utils;
 
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class enchantments {
     public static boolean hasUnbreak(ItemStack i){
@@ -41,17 +45,5 @@ public class enchantments {
         return times;
     }
 
-    public static void tryDamge(ItemStack i){
-        if (!hasUnbreak(i)){
-            int now = item.getDurability(i);
-            item.setDurability(i, now-1);
-        }
 
-        int level = i.getEnchantmentLevel(Enchantment.DURABILITY);
-        double odds = (double) (100 / (level + 1)) /100;
-        if(Math.random() < odds){
-            int now = item.getDurability(i);
-            item.setDurability(i, now-1);
-        }
-    }
 }

@@ -15,8 +15,8 @@ public class blocks {
         };
     }
 
-    public static int getBCountBreakBlocks(){
-        return countBreakBlocks;
+    public static String getBCountBreakBlocks(){
+        return String.valueOf(countBreakBlocks);
     }
 
     public static void setCountBreakBlocks(int num) {

@@ -1,9 +1,6 @@
 # Max chain break block count at once
 max-break: 64
 
-# Should player need to be sneaking to enable chain break?
-sneaking-to-enable: true
-
 # Chain break groups
 # when player has one of the tools in the list, and the block is in the list, the chain break will be enabled
 groups:

@@ -7,7 +7,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 public class text {
 
     private static String replace(String str){
-        return str.replace("%version%", LightChainBreak.version);
+        return str.replace("%version%", LightChainBreak.version)
+              .replace("%count%", blocks.getBCountBreakBlocks()) ;
     }
 
     public static Component colored(String str){

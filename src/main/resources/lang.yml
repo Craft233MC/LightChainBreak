@@ -1,8 +1,7 @@
-enabled: "<color:#c8f1ef>已开启连锁</color>"
-disabled: "<color:#c8f1ef>已关闭连锁</color>"
-
 running: "<color:#c8f1ef>正在运行LightChainBreak v%version%!</color>"
 reload: "<color:#c8f1ef>已重载配置文件!</color>"
+msg:
+  count-breaks: "<color:#c8f1ef>已破坏 %count% 个方块</color>"
 
 help:
   reload:  "<color:#c8f1ef>重载配置文件</color>"
@@ -17,3 +16,14 @@ about:
 error:
   only-player: "<color:#c8f1ef>只有玩家才能使用此指令!</color>"
   no-perms: "<color:#c8f1ef>你没有权限使用此指令!</color>"
+
+toggle:
+  enabled: "<color:#c8f1ef>已开启连锁</color>"
+  disabled: "<color:#c8f1ef>已关闭连锁</color>"
+  sneak-to-enabled: "<color:#c8f1ef>已开启潜行启用</color>"
+  sneak-to-disabled: "<color:#c8f1ef>已关闭潜行启用</color>"
+  display-count-enabled: "<color:#c8f1ef>已开启显示连锁数</color>"
+  display-count-disabled: "<color:#c8f1ef>已关闭显示连锁数</color>"
+  item-protective-enabled:  "<color:#c8f1ef>已开启物品保护</color>"
+  item-protective-disabled: "<color:#c8f1ef>已关闭物品保护</color>"
+  error: "<color:#c8f1ef>不存在这个开关!</color>"

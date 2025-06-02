@@ -10,6 +10,7 @@ import java.util.*;
 
 public class checker {
     private final YamlConfiguration config = file.getConfig("config");
+    private final YamlConfiguration playerData = file.getConfig("playerData");
     private final Set<String> skipPerms = Set.of("", "none", "NONE", "null");
     public boolean isAllowed(Block block, ItemStack tool, Player p) {
         Set<String> groups = config.getConfigurationSection("groups").getKeys(true);
@@ -54,7 +55,7 @@ public class checker {
     }
 
     public boolean isSneaking(Player p){
-        if(config.getBoolean("sneaking-to-enable")){
+        if(playerData.getBoolean(p.getUniqueId()+".sneak-to-enable")){
             return !p.isSneaking();
         }
         return false;

@@ -56,6 +56,15 @@ public class file {
      public boolean saveConfig(String fileName, YamlConfiguration config){
          try {
              config.save(new File(plugin.getDataFolder(), fileName+".yml"));
+
+             if (fileName.equals("config")) {
+                 file.config = config;
+             } else if (fileName.equals("lang")) {
+                 lang = config;
+             } else if (fileName.equals("playerData")) {
+                 playerData = config;
+             }
+
              return true;
          } catch (IOException e) {
              e.printStackTrace();

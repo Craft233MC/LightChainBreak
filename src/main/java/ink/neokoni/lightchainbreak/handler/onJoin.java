@@ -22,7 +22,16 @@ public class onJoin implements Listener {
         YamlConfiguration data = file.getConfig("playerData");
         if(!isBoolean(data.getString(player.getUniqueId()+".enabled"))){
             data.set(player.getUniqueId()+".enabled", false);
-            new file().saveConfig("playerData", data);
         }
+        if(!isBoolean(data.getString(player.getUniqueId()+".display-count"))){
+            data.set(player.getUniqueId()+".display-count", false);
+        }
+        if(!isBoolean(data.getString(player.getUniqueId()+".sneak-to-enable"))){
+            data.set(player.getUniqueId()+".sneak-to-enable", false);
+        }
+         if(!isBoolean(data.getString(player.getUniqueId()+".item-protective"))){
+            data.set(player.getUniqueId()+".item-protective", false);
+        }
+        new file().saveConfig("playerData", data);
     }
 }
