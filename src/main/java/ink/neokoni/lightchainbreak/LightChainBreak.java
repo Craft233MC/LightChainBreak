@@ -6,7 +6,7 @@ import ink.neokoni.lightchainbreak.handler.*;
 
 public final class LightChainBreak extends JavaPlugin {
     private static LightChainBreak instance;
-    public static final String version = "0.1";
+    public static final String version = "0.2";
     @Override
     public void onEnable() {
         instance = this;
