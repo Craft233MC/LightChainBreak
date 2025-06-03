@@ -54,7 +54,7 @@ public class statusPapi extends PlaceholderExpansion {
                     return ChatColor.RED+text.getLangString("papi.disabled");
                 }
             case "status_sneakEnable":
-                if (playerData.getBoolean(player.getUniqueId()+".sneak-enable")) {
+                if (playerData.getBoolean(player.getUniqueId()+".sneak-to-enable")) {
                     return ChatColor.GREEN+text.getLangString("papi.enabled");
                 } else {
                     return ChatColor.RED+text.getLangString("papi.disabled");
