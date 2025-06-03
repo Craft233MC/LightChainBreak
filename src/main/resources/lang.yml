@@ -1,5 +1,6 @@
 running: "<color:#c8f1ef>正在运行LightChainBreak v%version%!</color>"
 reload: "<color:#c8f1ef>已重载配置文件!</color>"
+linkd-plugin: "发现%plugin%!已启用插件特性 "
 msg:
   count-breaks: "<color:#c8f1ef>已破坏 %count% 个方块</color>"
 
@@ -27,3 +28,7 @@ toggle:
   item-protective-enabled:  "<color:#c8f1ef>已开启物品保护</color>"
   item-protective-disabled: "<color:#c8f1ef>已关闭物品保护</color>"
   error: "<color:#c8f1ef>不存在这个开关!</color>"
+
+papi:
+  enabled: "已启用"
+  disabled: "已禁用"

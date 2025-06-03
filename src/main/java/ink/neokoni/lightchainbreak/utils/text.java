@@ -11,12 +11,35 @@ public class text {
               .replace("%count%", blocks.getBCountBreakBlocks()) ;
     }
 
+    private static String replace(String str, String pl){
+        return str.replace("%version%", LightChainBreak.version)
+                .replace("%count%", blocks.getBCountBreakBlocks())
+                .replace("%plugin%", pl);
+    }
+
     public static Component colored(String str){
         return MiniMessage.miniMessage().deserialize(replace(str));
+    }
+
+    public static Component colored(String str, String pl){
+        return MiniMessage.miniMessage().deserialize(replace(str, pl));
     }
 
 
     public static Component getLang(String str){
         return colored(file.getConfig("lang").getString(str));
+    }
+
+    public static Component getLang(String str, String pl){
+        return colored(file.getConfig("lang").getString(str), pl);
+    }
+
+    public static String getLangString(String str){
+        return replace(file.getConfig("lang").getString(str));
+    }
+
+    public static String getLangString(String str, String pl){
+        return replace(file.getConfig("lang").getString(str), pl);
+
     }
 }
