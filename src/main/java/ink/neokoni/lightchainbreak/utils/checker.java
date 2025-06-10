@@ -1,5 +1,11 @@
 package ink.neokoni.lightchainbreak.utils;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.containers.Flags;
+import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.bekvon.bukkit.residence.protection.ResidencePermissions;
+import ink.neokoni.lightchainbreak.LightChainBreak;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,5 +65,22 @@ public class checker {
             return !p.isSneaking();
         }
         return false;
+    }
+
+    public boolean hasResidencePerms(Location l, Player p) {
+        if (LightChainBreak.residencePlugin==false) { // not install Residence
+            return true;
+        }
+
+        ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(l);
+
+        if (res==null) { // this location not have residence
+            return true;
+        }
+
+        ResidencePermissions resPerms = res.getPermissions();
+        Boolean defaultValue = Residence.getInstance().getConfigManager().getGlobalResidenceDefaultFlags().getFlags().get("destroy");
+
+        return resPerms.playerHas(p, Flags.destroy, defaultValue);
     }
 }

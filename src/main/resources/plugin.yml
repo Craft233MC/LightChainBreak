@@ -4,7 +4,7 @@ main: ink.neokoni.lightchainbreak.LightChainBreak
 api-version: '1.19'
 folia-supported: true
 authors: [Neokoni]
-softdepend: ["PlaceholderAPI"]
+softdepend: ["PlaceholderAPI", "Residence"]
 
 commands:
   lightchainbreak:

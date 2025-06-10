@@ -10,6 +10,7 @@ import ink.neokoni.lightchainbreak.handler.*;
 public final class LightChainBreak extends JavaPlugin {
     private static LightChainBreak instance;
     public static final String version = "0.2";
+    public static Boolean residencePlugin = false;
     @Override
     public void onEnable() {
         instance = this;
@@ -17,6 +18,7 @@ public final class LightChainBreak extends JavaPlugin {
         regCommand();
         new file().reloadConfig();
         regPapi();
+        regResidence();
     }
 
     @Override
@@ -40,7 +42,14 @@ public final class LightChainBreak extends JavaPlugin {
     private void regPapi() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new statusPapi().register();
+            getLogger().info(text.getLangString("linkd-plugin", "PlaceholderAPI"));
         }
-        getLogger().info(text.getLangString("linkd-plugin", "PlaceholderAPI"));
+    }
+
+    private void regResidence() {
+        if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
+            residencePlugin = true;
+            getLogger().info(text.getLangString("linkd-plugin", "Residence"));
+        }
     }
 }

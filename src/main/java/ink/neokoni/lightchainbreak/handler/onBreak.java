@@ -39,7 +39,8 @@ public class onBreak implements Listener {
             !new checker().isAllowed(startBlock, tool, player) || // check permission, block , tool
             !new checker().isPlayerEnabled(player) || // is player enabled chain break
             startBlock.getDrops(tool).isEmpty()  || // can be tool break and drop items?
-            new checker().isSneaking(player) // playerData.yml playerUUID.sneaking-to-enable
+            new checker().isSneaking(player) || // playerData.yml playerUUID.sneaking-to-enable
+            !new checker().hasResidencePerms(startBlock.getLocation(), player) // is player has residence perms?
         ){
                 return;
         }
@@ -66,6 +67,10 @@ public class onBreak implements Listener {
                     break;
                 }
                 if(visited.size() >= maxCanBreak){
+                    break;
+                }
+
+                if (!new checker().hasResidencePerms(relative.getLocation(), player)) {
                     break;
                 }
 
