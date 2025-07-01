@@ -9,11 +9,13 @@ import ink.neokoni.lightchainbreak.handler.*;
 
 public final class LightChainBreak extends JavaPlugin {
     private static LightChainBreak instance;
-    public static final String version = "0.3";
+    public static String version;
     public static Boolean residencePlugin = false;
     @Override
     public void onEnable() {
         instance = this;
+        version = this.getDescription().getVersion();
+
         regEvent();
         regCommand();
         new file().reloadConfig();

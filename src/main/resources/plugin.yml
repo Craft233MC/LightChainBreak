@@ -1,5 +1,5 @@
 name: LightChainBreak
-version: '0.3'
+version: '${version}'
 main: ink.neokoni.lightchainbreak.LightChainBreak
 api-version: '1.19'
 folia-supported: true
