@@ -20,7 +20,19 @@ public class blocks {
                 block.getRelative(1, 0, 1),
                 block.getRelative(1, 0, -1),
                 block.getRelative(-1, 0, 1),
-                block.getRelative(-1, 0, -1)
+                block.getRelative(-1, 0, -1),
+                block.getRelative(0, 1, 1),
+                block.getRelative(0, 1, -1),
+                block.getRelative(0, -1, 1),
+                block.getRelative(0, -1, -1),
+                block.getRelative(1, 1, 1),
+                block.getRelative(1, 1, -1),
+                block.getRelative(1, -1, 1),
+                block.getRelative(1, -1, -1),
+                block.getRelative(-1, 1, 1),
+                block.getRelative(-1, 1, -1),
+                block.getRelative(-1, -1, 1),
+                block.getRelative(-1, -1, -1)
         };
     }
 
