@@ -62,7 +62,7 @@ public class onBreak implements Listener {
 
         while (!queue.isEmpty()) {
             Block current = queue.poll();
-            for (Block relative : blocks.getRelative(current)) {
+            for (Block relative : blocks.getRelatives(current)) {
                 if (new checker().isMaxBlocks(visited.size())) {
                     break;
                 }

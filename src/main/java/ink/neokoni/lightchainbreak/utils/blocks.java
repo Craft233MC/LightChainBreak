@@ -4,7 +4,16 @@ import org.bukkit.block.Block;
 
 public class blocks {
     private static int countBreakBlocks;
-    public static Block[] getRelative(Block block) {
+
+    public static Block[] getRelatives(Block block) {
+        if (file.getConfig("config.yml").getBoolean("diagonal-break")) {
+            return getAllRelatives(block);
+        } else {
+            return getAdjacents(block);
+        }
+    }
+
+    public static Block[] getAllRelatives(Block block) {
         return new Block[]{
                 block.getRelative(0, 1, 0),
                 block.getRelative(0, -1, 0),
@@ -33,6 +42,17 @@ public class blocks {
                 block.getRelative(-1, 1, -1),
                 block.getRelative(-1, -1, 1),
                 block.getRelative(-1, -1, -1)
+        };
+    }
+
+    public static Block[] getAdjacents(Block block) {
+        return new Block[]{
+                block.getRelative(0, 1, 0),
+                block.getRelative(0, -1, 0),
+                block.getRelative(1, 0, 0),
+                block.getRelative(-1, 0, 0),
+                block.getRelative(0, 0, 1),
+                block.getRelative(0, 0, -1)
         };
     }
 

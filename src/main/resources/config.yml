@@ -1,6 +1,9 @@
 # Max chain break block count at once
 max-break: 64
 
+# Enable diagonal block be counted
+diagonal-break: false
+
 # Chain break groups
 # when player has one of the tools in the list, and the block is in the list, the chain break will be enabled
 groups:
