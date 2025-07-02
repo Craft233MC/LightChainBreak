@@ -1,15 +1,21 @@
 # Max chain break block count at once
+# 一次性可以连锁的最大数量
 max-break: 64
 
 # Enable diagonal block be counted
+# 启用对角的方块连锁
 diagonal-break: false
 
 # Chain break groups
 # when player has one of the tools in the list, and the block is in the list, the chain break will be enabled
+# 连锁破坏组
+# 当玩家有该组其中之一的工具时，并且方块属于该组中的方块时，连锁破坏将启用
 groups:
   mine:
     # The permission required to use this group
     # if set null, "" , none, NONE or keep empty, the permission will be ignored
+    # 使用此组所需的权限
+    # 如果设置为null，""，none，NONE或保持为空，则将忽略此权限
     permission: lightchainbreak.group.mine
     tools:
       - DIAMOND_PICKAXE
