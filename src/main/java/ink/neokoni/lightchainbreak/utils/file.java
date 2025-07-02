@@ -13,6 +13,7 @@ public class file {
     private static YamlConfiguration config;
     private static YamlConfiguration lang;
     private static YamlConfiguration playerData;
+    private final static Boolean isFolia = LightChainBreak.runningWithFolia;
 
      public boolean isFileExist(String fileName){
          return new File(plugin.getDataFolder(),  fileName+".yml").exists();
@@ -23,6 +24,19 @@ public class file {
      }
 
      public void reloadConfig(){
+         if (config==null) {
+             reloadConfigLogic();
+             return;
+         }
+
+         if (isFolia) {
+             Bukkit.getAsyncScheduler().runNow(plugin, task -> reloadConfigLogic());
+         } else {
+             Bukkit.getScheduler().runTaskAsynchronously(plugin, task -> reloadConfigLogic());
+         }
+     }
+
+     public void reloadConfigLogic(){
          config = loadConfig("config");
          lang = loadConfig("lang");
          playerData = loadConfig("playerData");
