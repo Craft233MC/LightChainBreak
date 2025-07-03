@@ -77,8 +77,7 @@ public class commands implements CommandExecutor {
         }
 
         if (strings[0].equals("reload")){
-            new file().reloadConfig();
-            commandSender.sendMessage(text.getLang("reload"));
+            new file().reloadConfig(commandSender);
             return true;
         }
         return true;

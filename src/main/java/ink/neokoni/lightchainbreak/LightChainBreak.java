@@ -18,7 +18,7 @@ public final class LightChainBreak extends JavaPlugin {
 
         regEvent();
         regCommand();
-        new file().reloadConfig();
+        new file().reloadConfig(null);
         regPapi();
         regResidence();
     }
