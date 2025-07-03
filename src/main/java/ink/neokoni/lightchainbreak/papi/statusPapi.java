@@ -20,7 +20,7 @@ public class statusPapi extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return String.valueOf(LightChainBreak.getInstance().getDescription().getAuthors());
+        return String.valueOf(LightChainBreak.getInstance().getPluginMeta().getAuthors());
     }
 
     @Override
