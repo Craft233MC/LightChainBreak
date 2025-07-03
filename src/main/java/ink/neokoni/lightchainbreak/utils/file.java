@@ -45,14 +45,12 @@ public class file {
      }
 
      public static YamlConfiguration getConfig(String fileName) {
-         if(fileName.equals("config")){
-             return config;
-         }else if(fileName.equals("lang")){
-             return lang;
-         }else if(fileName.equals("playerData")){
-             return playerData;
-         }
-         return null;
+         return switch (fileName) {
+             case "config" -> config;
+             case "lang" -> lang;
+             case "playerData" -> playerData;
+             default -> null;
+         };
      }
 
      public YamlConfiguration loadConfig(String fileName) {
@@ -66,12 +64,10 @@ public class file {
          try {
              config.save(new File(plugin.getDataFolder(), fileName+".yml"));
 
-             if (fileName.equals("config")) {
-                 file.config = config;
-             } else if (fileName.equals("lang")) {
-                 lang = config;
-             } else if (fileName.equals("playerData")) {
-                 playerData = config;
+             switch (fileName) {
+                 case "config" -> file.config = config;
+                 case "lang" -> lang = config;
+                 case "playerData" -> playerData = config;
              }
 
              return true;

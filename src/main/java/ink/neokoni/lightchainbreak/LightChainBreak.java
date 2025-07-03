@@ -14,7 +14,7 @@ public final class LightChainBreak extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        version = this.getDescription().getVersion();
+        version = this.getPluginMeta().getVersion();
 
         regEvent();
         regCommand();
