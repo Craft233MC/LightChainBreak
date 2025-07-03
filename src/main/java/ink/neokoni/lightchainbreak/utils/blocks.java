@@ -6,7 +6,7 @@ public class blocks {
     private static int countBreakBlocks;
 
     public static Block[] getRelatives(Block block) {
-        if (file.getConfig("config.yml").getBoolean("diagonal-break")) {
+        if (file.getConfig("config").getBoolean("diagonal-break")) {
             return getAllRelatives(block);
         } else {
             return getAdjacents(block);

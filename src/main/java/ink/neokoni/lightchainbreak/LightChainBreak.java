@@ -11,12 +11,10 @@ public final class LightChainBreak extends JavaPlugin {
     private static LightChainBreak instance;
     public static String version;
     public static Boolean residencePlugin = false;
-    public static Boolean runningWithFolia;
     @Override
     public void onEnable() {
         instance = this;
         version = this.getDescription().getVersion();
-        runningWithFolia = isFolia();
 
         regEvent();
         regCommand();
@@ -56,15 +54,4 @@ public final class LightChainBreak extends JavaPlugin {
             getLogger().info(text.getLangString("linkd-plugin", "Residence"));
         }
     }
-
-    private static boolean isFolia() {
-        try {
-            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
-
-
 }
