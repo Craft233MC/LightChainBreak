@@ -38,7 +38,7 @@ public class file {
          if (sender != null){
              Bukkit.getAsyncScheduler().runAtFixedRate(plugin, task -> {
                  if (reloadTask.getExecutionState().equals(ScheduledTask.ExecutionState.FINISHED)){
-                     Bukkit.getServer().broadcast(text.getLang("reload"));
+                     sender.sendMessage(text.getLang("reload"));
                      task.cancel();
                  }
              }, 50, 50, TimeUnit.MILLISECONDS); // 1000 / 20 = 50ms = 1tick
