@@ -3,7 +3,11 @@
 max-break: 64
 
 # Enable diagonal block be counted
+# This may cost more performance for detection
+# When disabled, only 6 blocks need to be detected, and 26 blocks will be detected after enabled.
 # 启用对角的方块连锁
+# 这可能花费更多性能用于检测
+# 禁用时只需要检测6个方块，启用后会检测26个方块
 diagonal-break: false
 
 # Chain break groups
