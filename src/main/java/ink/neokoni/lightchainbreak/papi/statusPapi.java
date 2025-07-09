@@ -4,7 +4,7 @@ import ink.neokoni.lightchainbreak.LightChainBreak;
 import ink.neokoni.lightchainbreak.utils.file;
 import ink.neokoni.lightchainbreak.utils.text;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -37,27 +37,27 @@ public class statusPapi extends PlaceholderExpansion {
         switch (params) {
             case "status_enable":
                 if (playerData.getBoolean(player.getUniqueId()+".enabled")) {
-                    return ChatColor.GREEN+text.getLangString("papi.enabled");
+                    return NamedTextColor.GREEN+text.getLangString("papi.enabled");
                 } else {
-                    return ChatColor.RED+text.getLangString("papi.disabled");
+                    return NamedTextColor.RED+text.getLangString("papi.disabled");
                 }
             case "status_displayCount":
                 if (playerData.getBoolean(player.getUniqueId()+".display-count")) {
-                    return ChatColor.GREEN+text.getLangString("papi.enabled");
+                    return NamedTextColor.GREEN+text.getLangString("papi.enabled");
                 } else {
-                    return ChatColor.RED+text.getLangString("papi.disabled");
+                    return NamedTextColor.RED+text.getLangString("papi.disabled");
                 }
             case "status_itemProtective":
                 if (playerData.getBoolean(player.getUniqueId()+".item-protective")) {
-                    return ChatColor.GREEN+text.getLangString("papi.enabled");
+                    return NamedTextColor.GREEN+text.getLangString("papi.enabled");
                 } else {
-                    return ChatColor.RED+text.getLangString("papi.disabled");
+                    return NamedTextColor.RED+text.getLangString("papi.disabled");
                 }
             case "status_sneakEnable":
                 if (playerData.getBoolean(player.getUniqueId()+".sneak-to-enable")) {
-                    return ChatColor.GREEN+text.getLangString("papi.enabled");
+                    return NamedTextColor.GREEN+text.getLangString("papi.enabled");
                 } else {
-                    return ChatColor.RED+text.getLangString("papi.disabled");
+                    return NamedTextColor.RED+text.getLangString("papi.disabled");
                 }
         }
         return null; // not found
