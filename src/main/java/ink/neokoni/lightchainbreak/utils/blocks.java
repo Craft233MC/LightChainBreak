@@ -5,62 +5,41 @@ import org.bukkit.block.Block;
 public class blocks {
     private static int countBreakBlocks;
 
+    private static final int[][] ORTHOGONAL_OFFSETS = {
+            {0, 1, 0}, {0, -1, 0}, {1, 0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 0, -1}
+    };
+
+    private static final int[][] ALL_OFFSETS = {
+            {0, 1, 0}, {0, -1, 0}, {1, 0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 0, -1},
+
+            {1, 1, 0}, {1, -1, 0}, {-1, 1, 0}, {-1, -1, 0},
+            {1, 0, 1}, {1, 0, -1}, {-1, 0, 1}, {-1, 0, -1},
+            {0, 1, 1}, {0, 1, -1}, {0, -1, 1}, {0, -1, -1},
+
+            {1, 1, 1}, {1, 1, -1}, {1, -1, 1}, {1, -1, -1},
+            {-1, 1, 1}, {-1, 1, -1}, {-1, -1, 1}, {-1, -1, -1}
+    };
+
     public static Block[] getRelatives(Block block) {
-        if (file.getConfig("config").getBoolean("diagonal-break")) {
-            return getAllRelatives(block);
-        } else {
-            return getAdjacents(block);
+        return file.getConfig("config").getBoolean("diagonal-break", false)
+                ? getBlocks(block, ALL_OFFSETS)
+                : getBlocks(block, ORTHOGONAL_OFFSETS);
+    }
+
+    private static Block[] getBlocks(Block center, int[][] offsets) {
+        Block[] result = new Block[offsets.length];
+        for (int i = 0; i < offsets.length; i++) {
+            int[] offset = offsets[i];
+            result[i] = center.getRelative(offset[0], offset[1], offset[2]);
         }
-    }
-
-    public static Block[] getAllRelatives(Block block) {
-        return new Block[]{
-                block.getRelative(0, 1, 0),
-                block.getRelative(0, -1, 0),
-                block.getRelative(1, 0, 0),
-                block.getRelative(-1, 0, 0),
-                block.getRelative(0, 0, 1),
-                block.getRelative(0, 0, -1),
-
-                block.getRelative(1, 1, 0),
-                block.getRelative(1, -1, 0),
-                block.getRelative(-1, 1, 0),
-                block.getRelative(-1, -1, 0),
-                block.getRelative(1, 0, 1),
-                block.getRelative(1, 0, -1),
-                block.getRelative(-1, 0, 1),
-                block.getRelative(-1, 0, -1),
-                block.getRelative(0, 1, 1),
-                block.getRelative(0, 1, -1),
-                block.getRelative(0, -1, 1),
-                block.getRelative(0, -1, -1),
-                block.getRelative(1, 1, 1),
-                block.getRelative(1, 1, -1),
-                block.getRelative(1, -1, 1),
-                block.getRelative(1, -1, -1),
-                block.getRelative(-1, 1, 1),
-                block.getRelative(-1, 1, -1),
-                block.getRelative(-1, -1, 1),
-                block.getRelative(-1, -1, -1)
-        };
-    }
-
-    public static Block[] getAdjacents(Block block) {
-        return new Block[]{
-                block.getRelative(0, 1, 0),
-                block.getRelative(0, -1, 0),
-                block.getRelative(1, 0, 0),
-                block.getRelative(-1, 0, 0),
-                block.getRelative(0, 0, 1),
-                block.getRelative(0, 0, -1)
-        };
-    }
-
-    public static String getBCountBreakBlocks(){
-        return String.valueOf(countBreakBlocks);
+        return result;
     }
 
     public static void setCountBreakBlocks(int num) {
         countBreakBlocks = num;
+    }
+
+    public static int getCountBreakBlocks() {
+        return countBreakBlocks;
     }
 }

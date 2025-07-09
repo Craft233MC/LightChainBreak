@@ -8,12 +8,12 @@ public class text {
 
     private static String replace(String str){
         return str.replace("%version%", LightChainBreak.version)
-              .replace("%count%", blocks.getBCountBreakBlocks()) ;
+              .replace("%count%", String.valueOf(blocks.getCountBreakBlocks())) ;
     }
 
     private static String replace(String str, String pl){
         return str.replace("%version%", LightChainBreak.version)
-                .replace("%count%", blocks.getBCountBreakBlocks())
+                .replace("%count%", String.valueOf(blocks.getCountBreakBlocks()))
                 .replace("%plugin%", pl);
     }
 
