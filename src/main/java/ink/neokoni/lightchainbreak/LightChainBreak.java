@@ -14,7 +14,7 @@ public final class LightChainBreak extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        version = this.getPluginMeta().getVersion();
+        version = getPluginMeta().getVersion();
 
         regEvent();
         regCommand();
@@ -44,14 +44,14 @@ public final class LightChainBreak extends JavaPlugin {
     private void regPapi() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new statusPapi().register();
-            getLogger().info(text.getLangString("linkd-plugin", "PlaceholderAPI"));
+            getLogger().info(text.getLangString("linkd-plugin", "%plugin%","PlaceholderAPI"));
         }
     }
 
     private void regResidence() {
         if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
             residencePlugin = true;
-            getLogger().info(text.getLangString("linkd-plugin", "Residence"));
+            getLogger().info(text.getLangString("linkd-plugin", "%plugin%", "Residence"));
         }
     }
 }

@@ -88,7 +88,7 @@ public class commands implements CommandExecutor {
             c.sendMessage(text.getLang("error.no-perms"));
             return;
         }
-        c.sendMessage(text.getLang("running"));
+        c.sendMessage(text.getLang("running", "%version%", LightChainBreak.version));
         c.sendMessage("");
         c.sendMessage(Component.text("--------------------").color(TextColor.fromCSSHexString("#C8F1EF")));
         c.sendMessage(Component.text("/lightchainbreak reload").color(TextColor.fromCSSHexString("#C8F1EF")).append(text.getLang("help.reload")));
@@ -102,7 +102,7 @@ public class commands implements CommandExecutor {
             c.sendMessage(text.getLang("error.no-perms"));
             return;
         }
-        c.sendMessage(text.getLang("running"));
+        c.sendMessage(text.getLang("running", "%version%", LightChainBreak.version));
         c.sendMessage("");
         c.sendMessage(text.getLang("about.desc"));
         c.sendMessage("");

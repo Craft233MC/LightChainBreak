@@ -38,8 +38,4 @@ public class blocks {
     public static void setCountBreakBlocks(int num) {
         countBreakBlocks = num;
     }
-
-    public static int getCountBreakBlocks() {
-        return countBreakBlocks;
-    }
 }

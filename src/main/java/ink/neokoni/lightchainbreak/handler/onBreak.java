@@ -16,8 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 
 public class onBreak implements Listener {
-    public static int countBreaks;
-
     public void register(JavaPlugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -25,8 +23,6 @@ public class onBreak implements Listener {
     @EventHandler
     private void onBlockBreak(BlockBreakEvent event) {
         YamlConfiguration playerData = file.getConfig("playerData");
-
-        blocks.setCountBreakBlocks(0);
 
         Player player = event.getPlayer();
         ItemStack tool = player.getInventory().getItemInMainHand();
@@ -89,12 +85,8 @@ public class onBreak implements Listener {
             }
         });
 
-        blocks.setCountBreakBlocks(visited.size());
-
         if(playerData.getBoolean(player.getUniqueId()+".display-count")){
-            countBreaks = visited.size(); // set value
-            player.sendActionBar(text.getLang("msg.count-breaks"));
-            countBreaks = 0; //clean
+            player.sendActionBar(text.getLang("msg.count-breaks", "%count%", String.valueOf(visited.size())));
         }
     }
 }
