@@ -47,7 +47,6 @@ public class onBreak implements Listener {
         visited.add(startBlock);
 
         int maxCanBreak = item.getDurability(tool);
-        boolean itemProtective = playerData.getBoolean(player.getUniqueId()+".item-protective");
         if(enchantments.hasUnbreak(tool)) {
             maxCanBreak = enchantments.getMaxCanBreakFromEnchantment(tool);
         }

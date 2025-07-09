@@ -8,23 +8,6 @@ public class enchantments {
         return i.containsEnchantment(Enchantment.DURABILITY);
     }
 
-    public static int getDeclineDurability(ItemStack i, int times){ // enchantment and blocks -> how many durage remove
-        if(!hasUnbreak(i)){return times;}
-
-        int level = i.getEnchantmentLevel(Enchantment.DURABILITY);
-        double odds = (double) (100 / (level + 1)) /100;
-        int damge = 0;
-        for (int j = 0; j < times; j++) {
-            if(damge >= times){
-                break;
-            }
-            if (Math.random() <= odds){
-                damge++;
-            }
-        }
-        return damge;
-    }
-
     public static int getMaxCanBreakFromEnchantment(ItemStack i){ // durage and enchantment -> how many blocks can break
         if(!hasUnbreak(i)){return item.getDurability(i);}
 

@@ -3,8 +3,6 @@ package ink.neokoni.lightchainbreak.utils;
 import org.bukkit.block.Block;
 
 public class blocks {
-    private static int countBreakBlocks;
-
     private static final int[][] ORTHOGONAL_OFFSETS = {
             {0, 1, 0}, {0, -1, 0}, {1, 0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 0, -1}
     };
@@ -33,9 +31,5 @@ public class blocks {
             result[i] = center.getRelative(offset[0], offset[1], offset[2]);
         }
         return result;
-    }
-
-    public static void setCountBreakBlocks(int num) {
-        countBreakBlocks = num;
     }
 }
