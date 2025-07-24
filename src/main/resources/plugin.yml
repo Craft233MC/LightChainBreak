@@ -10,7 +10,6 @@ commands:
   lightchainbreak:
     description: LightChainBreak
     aliases: [lcb]
-    permission: lightchainbreak.help
 
 permissions:
   lightchainbreak.toggle: {default: true}
