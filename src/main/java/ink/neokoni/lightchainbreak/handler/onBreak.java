@@ -77,12 +77,12 @@ public class onBreak implements Listener {
             }
         }
 
-        visited.forEach(b -> {
-            b.breakNaturally(tool);
+        for (Block block : visited) {
+            block.breakNaturally(tool);
             if(item.hasDurability(tool)){
                 item.tryDamge(tool, player);
             }
-        });
+        }
 
         if(playerData.getBoolean(player.getUniqueId()+".display-count")){
             player.sendActionBar(text.getLang("msg.count-breaks", "%count%", String.valueOf(visited.size())));

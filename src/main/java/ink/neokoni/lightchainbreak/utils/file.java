@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,9 +51,9 @@ public class file {
          lang = loadConfig("lang");
          playerData = loadConfig("playerData");
 
-         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
              new onJoin().onPlayerJoin(new PlayerJoinEvent(player, Component.empty()));
-         });
+         }
      }
 
      public static YamlConfiguration getConfig(String fileName) {

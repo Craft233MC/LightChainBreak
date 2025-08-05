@@ -32,8 +32,12 @@ public class checker {
 
             Set<Material> toolSet = new HashSet<>();
             Set<Material> targetSet = new HashSet<>();
-            tools.forEach(m -> toolSet.add(Material.matchMaterial(m)));
-            target.forEach(m -> targetSet.add(Material.matchMaterial(m)));
+            for (String m : tools) {
+                toolSet.add(Material.matchMaterial(m));
+            }
+            for (String m : target) {
+                targetSet.add(Material.matchMaterial(m));
+            }
 
             if(toolSet.contains(toolType) && targetSet.contains(blockType) && hasPerms(p, group)){
                 return true;
