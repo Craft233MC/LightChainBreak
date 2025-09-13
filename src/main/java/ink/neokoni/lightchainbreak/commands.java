@@ -13,7 +13,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -22,18 +21,15 @@ public class commands implements CommandExecutor {
     private static final List<String> toggleSelector = List.of("enable", "sneak-enable", "display-count", "item-protective");
     public void register(JavaPlugin plugin) {
         plugin.getCommand("lightchainbreak").setExecutor(this);
-        plugin.getCommand("lightchainbreak").setTabCompleter(new TabCompleter() {
-            @Override
-            public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-                if (strings.length==1) {
-                     return subCommands;
-                }
-
-                if (strings.length==2 && strings[0].equals("toggle")){
-                    return toggleSelector;
-                }
-                return null;
+        plugin.getCommand("lightchainbreak").setTabCompleter((sender, command, string, args) -> {
+            if (args.length==1) {
+                return subCommands;
             }
+
+            if (args.length==2 && args[0].equals("toggle")){
+                return toggleSelector;
+            }
+            return null;
         });
     }
 
