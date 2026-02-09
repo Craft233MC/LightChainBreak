@@ -25,6 +25,7 @@ groups:
       - DIAMOND_PICKAXE
       - IRON_PICKAXE
       - GOLDEN_PICKAXE
+      - COPPER_PICKAXE
       - STONE_PICKAXE
       - WOODEN_PICKAXE
       - NETHERITE_PICKAXE
@@ -54,6 +55,7 @@ groups:
       - DIAMOND_AXE
       - IRON_AXE
       - GOLDEN_AXE
+      - COPPER_AXE
       - STONE_AXE
       - WOODEN_AXE
       - NETHERITE_AXE
