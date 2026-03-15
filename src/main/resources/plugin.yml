@@ -6,6 +6,12 @@ folia-supported: true
 authors: [Neokoni]
 softdepend: ["PlaceholderAPI", "Residence"]
 
+libraries:
+  - "de.exlll:configlib-yaml:4.8.1"
+  - "com.zaxxer:HikariCP:7.0.2"
+  - "com.mysql:mysql-connector-j:9.5.0"
+  - "org.mariadb.jdbc:mariadb-java-client:3.5.6"
+
 commands:
   lightchainbreak:
     description: LightChainBreak
