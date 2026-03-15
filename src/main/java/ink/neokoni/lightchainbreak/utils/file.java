@@ -25,8 +25,12 @@ public class file {
          return new File(plugin.getDataFolder(),  fileName+".yml").exists();
      }
 
-     public void createFile(String fileName) {
-         plugin.saveResource(fileName+".yml", false);
+     public void createFile(String fileName, boolean create) {
+         if (create) {
+             new File(fileName+".yml");
+         } else {
+             plugin.saveResource(fileName+".yml", false);
+         }
      }
 
      public void reloadConfig(@Nullable CommandSender sender){
@@ -47,9 +51,9 @@ public class file {
      }
 
      public void reloadConfigLogic(){
-         config = loadConfig("config");
-         lang = loadConfig("lang");
-         playerData = loadConfig("playerData");
+         config = loadConfig("config", false);
+         lang = loadConfig("lang", false);
+         playerData = loadConfig("playerData", true);
 
          for (Player player : Bukkit.getServer().getOnlinePlayers()) {
              new onJoin().onPlayerJoin(new PlayerJoinEvent(player, Component.empty()));
@@ -65,9 +69,9 @@ public class file {
          };
      }
 
-     public YamlConfiguration loadConfig(String fileName) {
+     public YamlConfiguration loadConfig(String fileName, boolean create) {
          if(!isFileExist(fileName)){
-             createFile(fileName);
+             createFile(fileName, create);
          }
          return YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), fileName+".yml"));
      }
