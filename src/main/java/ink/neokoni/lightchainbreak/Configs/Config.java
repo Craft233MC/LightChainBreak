@@ -1,17 +1,17 @@
-package ink.neokoni.lightchainbreak.configs;
+package ink.neokoni.lightchainbreak.Configs;
 
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
-import ink.neokoni.lightchainbreak.utils.file;
+import ink.neokoni.lightchainbreak.Utils.FileUtils;
 import lombok.Getter;
 
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-public class config {
+public class Config {
     private static BaseConfig config;
     private static String configName = "config.yml";
     private static Path configFile;
@@ -96,7 +96,7 @@ public class config {
         @Getter private int maxBreak=64;
         @Comment({"Enable diagonal block be counted",
                 "This may cost more performance for detection",
-                "When disabled, only 6 blocks need to be detected, and 26 blocks will be detected after enabled.",
+                "When disabled, only 6 BlockUtils need to be detected, and 26 BlockUtils will be detected after enabled.",
                 "启用对角的方块连锁",
                 "这可能花费更多性能用于检测",
                 "禁用时只需要检测6个方块，启用后会检测26个方块"})
@@ -161,13 +161,13 @@ public class config {
 
     public static void init() {
         config = new BaseConfig();
-        configFile = file.getFilePath(configName);
+        configFile = FileUtils.getFilePath(configName);
 
         load();
     }
 
     private static void load() {
-        if (!file.isFileExist(configFile)) {
+        if (!FileUtils.isFileExist(configFile)) {
             YamlConfigurations.save(configFile, BaseConfig.class, config);
         }
 

@@ -1,17 +1,17 @@
-package ink.neokoni.lightchainbreak.utils;
+package ink.neokoni.lightchainbreak.Utils;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-public class enchantments {
+public class EnchantmentsUtils {
     public static boolean hasUnbreak(ItemStack i){
         return i.containsEnchantment(Enchantment.DURABILITY);
     }
 
-    public static int getMaxCanBreakFromEnchantment(ItemStack i){ // durage and enchantment -> how many blocks can break
-        if(!hasUnbreak(i)){return item.getDurability(i);}
+    public static int getMaxCanBreakFromEnchantment(ItemStack i){ // durage and enchantment -> how many BlockUtils can break
+        if(!hasUnbreak(i)){return ItemUtils.getDurability(i);}
 
-        int durage = item.getDurability(i);
+        int durage = ItemUtils.getDurability(i);
         int level = i.getEnchantmentLevel(Enchantment.DURABILITY);
         double odds = (double) (100 / (level + 1)) /100;
         int times=0;

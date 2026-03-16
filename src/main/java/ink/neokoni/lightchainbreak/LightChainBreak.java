@@ -1,12 +1,12 @@
 package ink.neokoni.lightchainbreak;
 
-import ink.neokoni.lightchainbreak.configs.PlayerData;
-import ink.neokoni.lightchainbreak.papi.statusPapi;
-import ink.neokoni.lightchainbreak.utils.text;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
+import ink.neokoni.lightchainbreak.PAPIs.StatusPAPI;
+import ink.neokoni.lightchainbreak.Utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import ink.neokoni.lightchainbreak.utils.file;
-import ink.neokoni.lightchainbreak.handler.*;
+import ink.neokoni.lightchainbreak.Utils.FileUtils;
+import ink.neokoni.lightchainbreak.Handlers.*;
 
 public final class LightChainBreak extends JavaPlugin {
     private static LightChainBreak instance;
@@ -19,7 +19,7 @@ public final class LightChainBreak extends JavaPlugin {
 
         regEvent();
         regCommand();
-        file.loadAllConfigs();
+        FileUtils.loadAllConfigs();
         regPapi();
         regResidence();
     }
@@ -35,25 +35,25 @@ public final class LightChainBreak extends JavaPlugin {
     }
 
     private void regEvent(){
-        new onBreak().register(this);
-        new onJoin().register(this);
+        new PlayerBreakBlockListener().register(this);
+        new PlayerJoinQuitListener().register(this);
     }
 
     private void regCommand(){
-        new commands().register(this);
+        new Commands().register(this);
     }
 
     private void regPapi() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new statusPapi().register();
-            getLogger().info(text.getLangString("linkd-plugin", "%plugin%","PlaceholderAPI"));
+            new StatusPAPI().register();
+            getLogger().info(TextUtils.getLangString("linkd-plugin", "%plugin%","PlaceholderAPI"));
         }
     }
 
     private void regResidence() {
         if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
             residencePlugin = true;
-            getLogger().info(text.getLangString("linkd-plugin", "%plugin%", "Residence"));
+            getLogger().info(TextUtils.getLangString("linkd-plugin", "%plugin%", "Residence"));
         }
     }
 }

@@ -1,9 +1,9 @@
-package ink.neokoni.lightchainbreak.configs.SQL;
+package ink.neokoni.lightchainbreak.Configs.SQL;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ink.neokoni.lightchainbreak.configs.config;
-import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.Configs.Config;
+import ink.neokoni.lightchainbreak.Configs.Datas.PlayerDataInfo;
 import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 
@@ -20,7 +20,7 @@ public class SQLAdapter {
 
     public HikariDataSource initSql() {
         HikariConfig hikariConfig = new HikariConfig();
-        config.DataStorageInfo databaseInfo = config.getConfig().getDataStorageInfo();
+        Config.DataStorageInfo databaseInfo = Config.getConfig().getDataStorageInfo();
         StringBuilder baseUrlBuilder = new StringBuilder();
         baseUrlBuilder.append("jdbc:")
             .append(databaseInfo.type().toLowerCase())

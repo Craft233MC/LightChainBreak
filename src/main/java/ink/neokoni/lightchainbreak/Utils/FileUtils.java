@@ -1,16 +1,16 @@
-package ink.neokoni.lightchainbreak.utils;
+package ink.neokoni.lightchainbreak.Utils;
 
 import ink.neokoni.lightchainbreak.LightChainBreak;
-import ink.neokoni.lightchainbreak.configs.PlayerData;
-import ink.neokoni.lightchainbreak.configs.config;
-import ink.neokoni.lightchainbreak.configs.language;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
+import ink.neokoni.lightchainbreak.Configs.Config;
+import ink.neokoni.lightchainbreak.Configs.Language;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.nio.file.Path;
 
-public class file {
+public class FileUtils {
     private static final  LightChainBreak plugin = LightChainBreak.getInstance();
     private static Path dataPath = LightChainBreak.getInstance().getDataFolder().toPath();
 
@@ -27,8 +27,8 @@ public class file {
     }
 
      public static void loadAllConfigs() {
-         config.init();
-         language.init();
+         Config.init();
+         Language.init();
          PlayerData.init();
      }
 
@@ -38,7 +38,7 @@ public class file {
         loadAllConfigs();
 
         if (sender!=null) {
-            sender.sendMessage(text.getLang("reload"));
+            sender.sendMessage(TextUtils.getLang("reload"));
         }
      }
 }

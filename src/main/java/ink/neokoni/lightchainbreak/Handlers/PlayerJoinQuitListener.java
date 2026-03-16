@@ -1,14 +1,14 @@
-package ink.neokoni.lightchainbreak.handler;
+package ink.neokoni.lightchainbreak.Handlers;
 
-import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
-import ink.neokoni.lightchainbreak.configs.PlayerData;
+import ink.neokoni.lightchainbreak.Configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class onJoin implements Listener {
+public class PlayerJoinQuitListener implements Listener {
     public void register(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

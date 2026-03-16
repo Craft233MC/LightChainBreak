@@ -1,4 +1,4 @@
-package ink.neokoni.lightchainbreak.configs.SQL;
+package ink.neokoni.lightchainbreak.Configs.SQL;
 
 import lombok.SneakyThrows;
 

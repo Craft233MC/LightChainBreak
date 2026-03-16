@@ -1,9 +1,9 @@
-package ink.neokoni.lightchainbreak.utils;
+package ink.neokoni.lightchainbreak.Utils;
 
-import ink.neokoni.lightchainbreak.configs.config;
+import ink.neokoni.lightchainbreak.Configs.Config;
 import org.bukkit.block.Block;
 
-public class blocks {
+public class BlockUtils {
     private static final int[][] ORTHOGONAL_OFFSETS = {
             {0, 1, 0}, {0, -1, 0}, {1, 0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 0, -1}
     };
@@ -20,7 +20,7 @@ public class blocks {
     };
 
     public static Block[] getRelatives(Block block) {
-        return config.getConfig().isDiagonalBreak()
+        return Config.getConfig().isDiagonalBreak()
                 ? getBlocks(block, ALL_OFFSETS)
                 : getBlocks(block, ORTHOGONAL_OFFSETS);
     }

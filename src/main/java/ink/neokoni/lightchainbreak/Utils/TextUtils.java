@@ -1,10 +1,10 @@
-package ink.neokoni.lightchainbreak.utils;
+package ink.neokoni.lightchainbreak.Utils;
 
-import ink.neokoni.lightchainbreak.configs.language;
+import ink.neokoni.lightchainbreak.Configs.Language;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-public class text {
+public class TextUtils {
     private static String replace(String str, String key, String value) {
         return str.replace(key, value);
     }
@@ -18,18 +18,18 @@ public class text {
     }
 
     public static Component getLang(String str){
-        return colored(language.getLang().getString(str));
+        return colored(Language.getLang().getString(str));
     }
 
     public static Component getLang(String str, String key, String value) {
-        return colored(language.getLang().getString(str), key, value);
+        return colored(Language.getLang().getString(str), key, value);
     }
 
     public static String getLangString(String str){
-        return language.getLang().getString(str);
+        return Language.getLang().getString(str);
     }
 
     public static String getLangString(String str, String key, String value) {
-        return replace(language.getLang().getString(str), key, value);
+        return replace(Language.getLang().getString(str), key, value);
     }
 }

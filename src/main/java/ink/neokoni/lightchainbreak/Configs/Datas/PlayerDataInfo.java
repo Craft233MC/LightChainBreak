@@ -1,4 +1,4 @@
-package ink.neokoni.lightchainbreak.configs.Datas;
+package ink.neokoni.lightchainbreak.Configs.Datas;
 
 import lombok.Getter;
 import lombok.Setter;

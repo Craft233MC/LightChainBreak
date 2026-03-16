@@ -1,9 +1,9 @@
 package ink.neokoni.lightchainbreak;
 
-import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
-import ink.neokoni.lightchainbreak.configs.PlayerData;
-import ink.neokoni.lightchainbreak.utils.file;
-import ink.neokoni.lightchainbreak.utils.text;
+import ink.neokoni.lightchainbreak.Configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
+import ink.neokoni.lightchainbreak.Utils.FileUtils;
+import ink.neokoni.lightchainbreak.Utils.TextUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextColor;
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class commands implements CommandExecutor {
+public class Commands implements CommandExecutor {
     private static final List<String> subCommands = List.of("reload", "help", "toggle", "about");
-    private static final List<String> toggleSelector = List.of("enable", "sneak-enable", "display-count", "item-protective");
+    private static final List<String> toggleSelector = List.of("enable", "sneak-enable", "display-count", "ItemUtils-protective");
     public void register(JavaPlugin plugin) {
         plugin.getCommand("lightchainbreak").setExecutor(this);
         plugin.getCommand("lightchainbreak").setTabCompleter((sender, command, string, args) -> {
@@ -50,7 +50,7 @@ public class commands implements CommandExecutor {
 
         if (strings[0].equals("toggle")){
             if (!isPlayer(commandSender)){
-                 commandSender.sendMessage(text.getLang("error.only-player"));
+                 commandSender.sendMessage(TextUtils.getLang("error.only-player"));
                  return true;
             }
 
@@ -63,17 +63,17 @@ public class commands implements CommandExecutor {
             } else if (strings[1].equals("display-count")) {
                 toggleDisplayCount((Player) commandSender);
                 return true;
-            } else if ( strings[1].equals("item-protective")) {
+            } else if ( strings[1].equals("ItemUtils-protective")) {
                 toggleItemProtective((Player) commandSender);
                 return true;
             } else {
-                commandSender.sendMessage(text.getLang("toggle.error"));
+                commandSender.sendMessage(TextUtils.getLang("toggle.error"));
             }
             return true;
         }
 
         if (strings[0].equals("reload")){
-            file.reloadAllConfigs(commandSender);
+            FileUtils.reloadAllConfigs(commandSender);
             return true;
         }
         return true;
@@ -81,28 +81,28 @@ public class commands implements CommandExecutor {
 
     private void help(CommandSender c){
         if (!c.hasPermission("lightchainbreak.help")){
-            c.sendMessage(text.getLang("error.no-perms"));
+            c.sendMessage(TextUtils.getLang("error.no-perms"));
             return;
         }
-        c.sendMessage(text.getLang("running", "%version%", LightChainBreak.version));
+        c.sendMessage(TextUtils.getLang("running", "%version%", LightChainBreak.version));
         c.sendMessage("");
         c.sendMessage(Component.text("--------------------").color(TextColor.fromCSSHexString("#C8F1EF")));
-        c.sendMessage(Component.text("/lightchainbreak reload").color(TextColor.fromCSSHexString("#C8F1EF")).append(text.getLang("help.reload")));
-        c.sendMessage(Component.text("/lightchainbreak toggle [enable|sneak-enable|display-count|item-protective]").color(TextColor.fromCSSHexString("#C8F1EF")).append(text.getLang("help.toggle")));
-        c.sendMessage(Component.text("/lightchainbreak about").color(TextColor.fromCSSHexString("#C8F1EF")).append(text.getLang("help.about")));
-        c.sendMessage(Component.text("/lightchainbreak help").color(TextColor.fromCSSHexString("#C8F1EF")).append(text.getLang("help.help")));
+        c.sendMessage(Component.text("/lightchainbreak reload").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.reload")));
+        c.sendMessage(Component.text("/lightchainbreak toggle [enable|sneak-enable|display-count|ItemUtils-protective]").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.toggle")));
+        c.sendMessage(Component.text("/lightchainbreak about").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.about")));
+        c.sendMessage(Component.text("/lightchainbreak help").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.help")));
     }
 
     private void about(CommandSender c){
         if (!c.hasPermission("lightchainbreak.about")){
-            c.sendMessage(text.getLang("error.no-perms"));
+            c.sendMessage(TextUtils.getLang("error.no-perms"));
             return;
         }
-        c.sendMessage(text.getLang("running", "%version%", LightChainBreak.version));
+        c.sendMessage(TextUtils.getLang("running", "%version%", LightChainBreak.version));
         c.sendMessage("");
-        c.sendMessage(text.getLang("about.desc"));
+        c.sendMessage(TextUtils.getLang("about.desc"));
         c.sendMessage("");
-        c.sendMessage(text.getLang("about.link")
+        c.sendMessage(TextUtils.getLang("about.link")
                 .append(Component.text("[GitHub]").clickEvent(ClickEvent.openUrl("https://github.com/Craft233MC/LightChainBreak"))
                         .color(TextColor.fromCSSHexString("#C8F1EF"))));
 
@@ -110,7 +110,7 @@ public class commands implements CommandExecutor {
 
     private void toggleEnable(Player p){
         if (!p.hasPermission("lightchainbreak.toggle")){
-            p.sendMessage(text.getLang("error.no-perms"));
+            p.sendMessage(TextUtils.getLang("error.no-perms"));
             return;
         }
 
@@ -118,10 +118,10 @@ public class commands implements CommandExecutor {
 
         if(!playerData.isEnabled()){
             playerData.setEnabled(true);
-            p.sendMessage(text.getLang("toggle.enabled"));
+            p.sendMessage(TextUtils.getLang("toggle.enabled"));
         } else {
             playerData.setEnabled(false);
-            p.sendMessage(text.getLang("toggle.disabled"));
+            p.sendMessage(TextUtils.getLang("toggle.disabled"));
         }
 
         PlayerData.savePlayerData(p, playerData);
@@ -129,17 +129,17 @@ public class commands implements CommandExecutor {
 
     private void toggleSneakEnable(Player p){
         if (!p.hasPermission("lightchainbreak.toggle")){
-            p.sendMessage(text.getLang("error.no-perms"));
+            p.sendMessage(TextUtils.getLang("error.no-perms"));
             return;
         }
 
         PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
         if (playerData.isSneakToEnable()) {
             playerData.setSneakToEnable(false);
-            p.sendMessage( text.getLang("toggle.sneak-to-disabled"));
+            p.sendMessage( TextUtils.getLang("toggle.sneak-to-disabled"));
         } else {
             playerData.setSneakToEnable(true);
-            p.sendMessage( text.getLang("toggle.sneak-to-enabled"));
+            p.sendMessage( TextUtils.getLang("toggle.sneak-to-enabled"));
         }
 
         PlayerData.savePlayerData(p, playerData);
@@ -147,17 +147,17 @@ public class commands implements CommandExecutor {
 
     private void toggleDisplayCount (Player p){
         if (!p.hasPermission("lightchainbreak.toggle")){
-            p.sendMessage(text.getLang("error.no-perms"));
+            p.sendMessage(TextUtils.getLang("error.no-perms"));
             return;
         }
 
          PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
          if (playerData.isDisplayCount()) {
              playerData.setDisplayCount(false);
-             p.sendMessage( text.getLang("toggle.display-count-disabled"));
+             p.sendMessage( TextUtils.getLang("toggle.display-count-disabled"));
          } else {
              playerData.setDisplayCount(true);
-             p.sendMessage( text.getLang("toggle.display-count-enabled"));
+             p.sendMessage( TextUtils.getLang("toggle.display-count-enabled"));
          }
 
         PlayerData.savePlayerData(p, playerData);
@@ -165,17 +165,17 @@ public class commands implements CommandExecutor {
 
     private void toggleItemProtective (Player p){
          if (!p.hasPermission("lightchainbreak.toggle")){
-            p.sendMessage(text.getLang("error.no-perms"));
+            p.sendMessage(TextUtils.getLang("error.no-perms"));
             return;
         }
 
          PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
          if (playerData.isItemProtective()) {
              playerData.setItemProtective(false);
-             p.sendMessage( text.getLang("toggle.item-protective-disabled"));
+             p.sendMessage( TextUtils.getLang("toggle.ItemUtils-protective-disabled"));
          } else {
              playerData.setItemProtective(true);
-             p.sendMessage( text.getLang("toggle.item-protective-enabled"));
+             p.sendMessage( TextUtils.getLang("toggle.ItemUtils-protective-enabled"));
          }
 
         PlayerData.savePlayerData(p, playerData);

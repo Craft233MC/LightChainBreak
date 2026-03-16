@@ -1,12 +1,12 @@
-package ink.neokoni.lightchainbreak.utils;
+package ink.neokoni.lightchainbreak.Utils;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import ink.neokoni.lightchainbreak.LightChainBreak;
-import ink.neokoni.lightchainbreak.configs.PlayerData;
-import ink.neokoni.lightchainbreak.configs.config;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
+import ink.neokoni.lightchainbreak.Configs.Config;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class checker {
-    private final config.BaseConfig BaseConfig = config.getConfig();
+public class Checker {
+    private final Config.BaseConfig BaseConfig = Config.getConfig();
     private final Set<String> skipPerms = Set.of("", "none", "null");
     public boolean isAllowed(Block block, ItemStack tool, Player p) {
         Set<String> groups = BaseConfig.getGroups().keySet();

@@ -1,6 +1,6 @@
-package ink.neokoni.lightchainbreak.utils;
+package ink.neokoni.lightchainbreak.Utils;
 
-import ink.neokoni.lightchainbreak.configs.PlayerData;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -9,9 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import static ink.neokoni.lightchainbreak.utils.enchantments.hasUnbreak;
+import static ink.neokoni.lightchainbreak.Utils.EnchantmentsUtils.hasUnbreak;
 
-public class item {
+public class ItemUtils {
     public static int getDurability(ItemStack i){
         if(!((Damageable)i.getItemMeta()).hasDamage()){
             return i.getType().getMaxDurability();
@@ -32,18 +32,18 @@ public class item {
 
     public static void tryDamge(ItemStack i, Player p){
         if (!hasUnbreak(i)){
-            int now = item.getDurability(i);
-            item.setDurability(i, now-1);
+            int now = ItemUtils.getDurability(i);
+            ItemUtils.setDurability(i, now-1);
         } else {
             int level = i.getEnchantmentLevel(Enchantment.DURABILITY);
             double odds = (double) (100 / (level + 1)) /100;
             if(Math.random() < odds){
-                int now = item.getDurability(i);
-                item.setDurability(i, now-1);
+                int now = ItemUtils.getDurability(i);
+                ItemUtils.setDurability(i, now-1);
             }
         }
 
-        if (item.getDurability(i) < 1 && !PlayerData.getPlayerData(p.getPlayer(), false).isItemProtective()) {
+        if (ItemUtils.getDurability(i) < 1 && !PlayerData.getPlayerData(p.getPlayer(), false).isItemProtective()) {
             p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0F, 1.0F);
             p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
         }

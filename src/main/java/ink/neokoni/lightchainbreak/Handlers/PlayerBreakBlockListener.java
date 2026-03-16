@@ -1,8 +1,8 @@
-package ink.neokoni.lightchainbreak.handler;
+package ink.neokoni.lightchainbreak.Handlers;
 
-import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
-import ink.neokoni.lightchainbreak.configs.PlayerData;
-import ink.neokoni.lightchainbreak.utils.*;
+import ink.neokoni.lightchainbreak.Configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.Configs.PlayerData;
+import ink.neokoni.lightchainbreak.Utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public class onBreak implements Listener {
+public class PlayerBreakBlockListener implements Listener {
     private Map<Player, Set<Block>> breakingPlayers = new HashMap<>();
     public void register(JavaPlugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -38,23 +38,23 @@ public class onBreak implements Listener {
 
         if (player.getGameMode().equals(GameMode.CREATIVE) || // Creative mode
             (tool.getType().equals(Material.AIR)) || // is empty in hand
-            !new checker().isAllowed(startBlock, tool, player) || // check permission, block , tool
-            !new checker().isPlayerEnabled(player) || // is player enabled chain break
+            !new Checker().isAllowed(startBlock, tool, player) || // check permission, block , tool
+            !new Checker().isPlayerEnabled(player) || // is player enabled chain break
             startBlock.getDrops(tool).isEmpty()  || // can be tool break and drop items?
-            new checker().isSneaking(player) || // PlayerData.yml playerUUID.sneaking-to-enable
-            !new checker().hasResidencePerms(startBlock.getLocation(), player) // is player has residence perms?
+            new Checker().isSneaking(player) || // PlayerData.yml playerUUID.sneaking-to-enable
+            !new Checker().hasResidencePerms(startBlock.getLocation(), player) // is player has residence perms?
         ){
                 return;
         }
 
-        if (item.getDurability(tool)<=1) return;
+        if (ItemUtils.getDurability(tool)<=1) return;
 
         queue.add(startBlock);
         visited.add(startBlock);
 
-        int maxCanBreak = item.getDurability(tool);
-        if(enchantments.hasUnbreak(tool)) {
-            maxCanBreak = enchantments.getMaxCanBreakFromEnchantment(tool);
+        int maxCanBreak = ItemUtils.getDurability(tool);
+        if(EnchantmentsUtils.hasUnbreak(tool)) {
+            maxCanBreak = EnchantmentsUtils.getMaxCanBreakFromEnchantment(tool);
         }
 
         if (!playerData.isItemProtective()){
@@ -63,15 +63,15 @@ public class onBreak implements Listener {
 
         while (!queue.isEmpty()) {
             Block current = queue.poll();
-            for (Block relative : blocks.getRelatives(current)) {
-                if (new checker().isMaxBlocks(visited.size())) {
+            for (Block relative : BlockUtils.getRelatives(current)) {
+                if (new Checker().isMaxBlocks(visited.size())) {
                     break;
                 }
                 if(visited.size() >= maxCanBreak){
                     break;
                 }
 
-                if (!new checker().hasResidencePerms(relative.getLocation(), player)) {
+                if (!new Checker().hasResidencePerms(relative.getLocation(), player)) {
                     break;
                 }
 
@@ -84,14 +84,14 @@ public class onBreak implements Listener {
         }
         breakingPlayers.put(player, visited);
         for (Block block : visited) {
-            if(item.hasDurability(tool)){
+            if(ItemUtils.hasDurability(tool)){
                 player.breakBlock(block);
             }
         }
         breakingPlayers.remove(player);
 
         if(playerData.isDisplayCount()){
-            player.sendActionBar(text.getLang("msg.count-breaks", "%count%", String.valueOf(visited.size())));
+            player.sendActionBar(TextUtils.getLang("msg.count-breaks", "%count%", String.valueOf(visited.size())));
         }
     }
 }

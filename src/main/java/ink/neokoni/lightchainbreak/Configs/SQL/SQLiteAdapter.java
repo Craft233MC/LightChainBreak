@@ -1,8 +1,8 @@
-package ink.neokoni.lightchainbreak.configs.SQL;
+package ink.neokoni.lightchainbreak.Configs.SQL;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ink.neokoni.lightchainbreak.utils.file;
+import ink.neokoni.lightchainbreak.Utils.FileUtils;
 
 public class SQLiteAdapter extends SQLAdapter{
     public SQLiteAdapter() {
@@ -14,7 +14,7 @@ public class SQLiteAdapter extends SQLAdapter{
         HikariConfig hikariConfig = new HikariConfig();
         StringBuilder baseUrlBuilder = new StringBuilder();
         baseUrlBuilder.append("jdbc:sqlite:")
-                .append(file.getFile("PlayerData.db").getAbsoluteFile());
+                .append(FileUtils.getFile("PlayerData.db").getAbsoluteFile());
         String baseUrl = baseUrlBuilder.toString();
         hikariConfig.setJdbcUrl(baseUrl);
         hikariConfig.setDriverClassName(getDriverClass());
