@@ -113,8 +113,10 @@ public class Config {
         );
         @Comment({"Chain break groups",
                 "when player has one of the tools in the list, and the block is in the list, the chain break will be enabled",
+                "Permission require will be ignore when it is none, null, \"\" or empty",
                 "连锁破坏组",
-                "当玩家有该组其中之一的工具时，并且方块属于该组中的方块时，连锁破坏将启用"})
+                "当玩家有该组其中之一的工具时，并且方块属于该组中的方块时，连锁破坏将启用",
+                "当权限为none, null, \"\"或空时将被忽略"})
         @Getter private Map<String, MineGroup> groups = Map.of(
                 "mine", mine,
                 "wood", wood,
@@ -122,10 +124,6 @@ public class Config {
                 "wart_block", wart_block);
     }
     public record MineGroup(
-        @Comment({"The permission required to use this group",
-                "if set null, \"\" , none, NONE or keep empty, the permission will be ignored",
-                "使用此组所需的权限",
-                "如果设置为null，\"\"，none，NONE或保持空白，则将忽略权限"})
         @Getter String permission,
         @Getter List<String> tools,
         @Getter List<String> target
