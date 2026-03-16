@@ -106,9 +106,9 @@ public class Config {
                 "YAML",
                 "127.0.0.1",
                 3306,
-                "lightchianbreak",
+                "lightchainbreak",
                 "Passw0rd",
-                "lightchianbreak",
+                "lightchainbreak",
                 ""
         );
         @Comment({"Chain break groups",
