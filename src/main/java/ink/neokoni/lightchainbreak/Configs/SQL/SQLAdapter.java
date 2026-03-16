@@ -90,7 +90,7 @@ public class SQLAdapter {
         String uuid = player.getUniqueId().toString();
         String lookupSql = """
                 INSERT INTO PlayerData (uuid, enabled, displayCount, sneakToEnable, itemProtective) VALUES (?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE enable=?, displayCount=?, sneakToEnable=?, itemProtective=?;
+                ON DUPLICATE KEY UPDATE enabled=?, displayCount=?, sneakToEnable=?, itemProtective=?;
                 """;
         PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
         statement.setString(1, uuid);
