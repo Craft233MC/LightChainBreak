@@ -56,6 +56,9 @@ public class PlayerData {
             );
         } else {
             data = sqlAdapter.getPlayerData(player);
+            if (data == null) {
+                data = new PlayerDataInfo(player.getUniqueId(), false, false, false, false);
+            }
         }
         savePlayerData(player, data);
         return data;
