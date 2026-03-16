@@ -52,7 +52,7 @@ public class PlayerData {
                     playerDataYaml.getBoolean(player.getUniqueId() + ".enabled", false),
                     playerDataYaml.getBoolean(player.getUniqueId() + ".display-count", false),
                     playerDataYaml.getBoolean(player.getUniqueId() + ".sneak-to-enable", false),
-                    playerDataYaml.getBoolean(player.getUniqueId() + ".ItemUtils-protective", false)
+                    playerDataYaml.getBoolean(player.getUniqueId() + ".item-protective", false)
             );
         } else {
             data = sqlAdapter.getPlayerData(player);
@@ -71,18 +71,19 @@ public class PlayerData {
             playerDataYaml.set(player.getUniqueId() + ".enabled", data.isEnabled());
             playerDataYaml.set(player.getUniqueId() + ".display-count", data.isDisplayCount());
             playerDataYaml.set(player.getUniqueId() + ".sneak-to-enable", data.isSneakToEnable());
-            playerDataYaml.set(player.getUniqueId() + ".ItemUtils-protective", data.isItemProtective());
+            playerDataYaml.set(player.getUniqueId() + ".item-protective", data.isItemProtective());
             playerDataYaml.save(playerDataYamlFile);
         } else {
-            sqlAdapter.savePlayerData(player, data);
+            LightChainBreak.getAsyncScheduler().runNow(LightChainBreak.getInstance(),
+                    scheduledTask -> sqlAdapter.savePlayerData(player, data));
         }
         cachedPlayerDataMap.put(player, data);
     }
 
     public static void initYaml() {
-        if (FileUtils.isFileExist("playerData.yml")) {
+        if (FileUtils.isFileExist(oldPlayerDataYamlFileName)) {
             LightChainBreak.getInstance().getLogger().info("Found old playerData.yml, renaming to PlayerData.yml");
-            FileUtils.getFile("playerData.yml").renameTo(FileUtils.getFile(playerDataYamlFileName));
+            FileUtils.getFile(oldPlayerDataYamlFileName).renameTo(FileUtils.getFile(playerDataYamlFileName));
         }
         playerDataYamlFile = FileUtils.getFile(playerDataYamlFileName);
         playerDataYaml = YamlConfiguration.loadConfiguration(playerDataYamlFile);
