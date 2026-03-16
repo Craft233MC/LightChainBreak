@@ -84,7 +84,7 @@ public class PlayerBreakBlockListener implements Listener {
         }
         breakingPlayers.put(player, visited);
         for (Block block : visited) {
-            if(ItemUtils.hasDurability(tool)){
+            if(ItemUtils.canBreak(tool, playerData.isItemProtective())){
                 player.breakBlock(block);
             }
         }
