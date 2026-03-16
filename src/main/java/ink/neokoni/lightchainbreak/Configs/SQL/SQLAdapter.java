@@ -54,7 +54,7 @@ public class SQLAdapter {
     @SneakyThrows
     public void initTable() {
         String createTableSql = """
-            CREATE TABLE IF NOT EXISTS playerData(
+            CREATE TABLE IF NOT EXISTS PlayerData(
                 uuid VARCHAR(36) PRIMARY KEY,
                 enabled BOOLEAN NOT NULL DEFAULT FALSE,
                 displayCount BOOLEAN NOT NULL DEFAULT FALSE,
@@ -69,7 +69,7 @@ public class SQLAdapter {
     public PlayerDataInfo getPlayerData(Player player) {
         String uuid = player.getUniqueId().toString();
         String lookupSql = """
-                SELECT * FROM playerData WHERE uuid=?
+                SELECT * FROM PlayerData WHERE uuid=?
                 """;
         PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
         statement.setString(1, uuid);
@@ -89,7 +89,7 @@ public class SQLAdapter {
     public void savePlayerData(Player player, PlayerDataInfo playerData) {
         String uuid = player.getUniqueId().toString();
         String lookupSql = """
-                INSERT INTO playerData (uuid, enabled, displayCount, sneakToEnable, itemProtective) VALUES (?, ?, ?, ?, ?)
+                INSERT INTO PlayerData (uuid, enabled, displayCount, sneakToEnable, itemProtective) VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE enable=?, displayCount=?, sneakToEnable=?, itemProtective=?;
                 """;
         PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
