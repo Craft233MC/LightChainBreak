@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Commands implements CommandExecutor {
     private static final List<String> subCommands = List.of("reload", "help", "toggle", "about");
-    private static final List<String> toggleSelector = List.of("enable", "sneak-enable", "display-count", "ItemUtils-protective");
+    private static final List<String> toggleSelector = List.of("enable", "sneak-enable", "display-count", "item-protective");
     public void register(JavaPlugin plugin) {
         plugin.getCommand("lightchainbreak").setExecutor(this);
         plugin.getCommand("lightchainbreak").setTabCompleter((sender, command, string, args) -> {
@@ -63,7 +63,7 @@ public class Commands implements CommandExecutor {
             } else if (strings[1].equals("display-count")) {
                 toggleDisplayCount((Player) commandSender);
                 return true;
-            } else if ( strings[1].equals("ItemUtils-protective")) {
+            } else if ( strings[1].equals("item-protective")) {
                 toggleItemProtective((Player) commandSender);
                 return true;
             } else {
@@ -88,7 +88,7 @@ public class Commands implements CommandExecutor {
         c.sendMessage("");
         c.sendMessage(Component.text("--------------------").color(TextColor.fromCSSHexString("#C8F1EF")));
         c.sendMessage(Component.text("/lightchainbreak reload").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.reload")));
-        c.sendMessage(Component.text("/lightchainbreak toggle [enable|sneak-enable|display-count|ItemUtils-protective]").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.toggle")));
+        c.sendMessage(Component.text("/lightchainbreak toggle [enable|sneak-enable|display-count|item-protective]").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.toggle")));
         c.sendMessage(Component.text("/lightchainbreak about").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.about")));
         c.sendMessage(Component.text("/lightchainbreak help").color(TextColor.fromCSSHexString("#C8F1EF")).append(TextUtils.getLang("help.help")));
     }
@@ -172,10 +172,10 @@ public class Commands implements CommandExecutor {
          PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
          if (playerData.isItemProtective()) {
              playerData.setItemProtective(false);
-             p.sendMessage( TextUtils.getLang("toggle.ItemUtils-protective-disabled"));
+             p.sendMessage( TextUtils.getLang("toggle.item-protective-disabled"));
          } else {
              playerData.setItemProtective(true);
-             p.sendMessage( TextUtils.getLang("toggle.ItemUtils-protective-enabled"));
+             p.sendMessage( TextUtils.getLang("toggle.item-protective-enabled"));
          }
 
         PlayerData.savePlayerData(p, playerData);
