@@ -1,0 +1,107 @@
+package ink.neokoni.lightchainbreak.configs.SQL;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import ink.neokoni.lightchainbreak.configs.config;
+import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
+import lombok.SneakyThrows;
+import org.bukkit.entity.Player;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.UUID;
+
+public class SQLAdapter {
+    private HikariDataSource dataSource;
+    public SQLAdapter() {
+        dataSource = initSql();
+        initTable();
+    }
+
+    public HikariDataSource initSql() {
+        HikariConfig hikariConfig = new HikariConfig();
+        config.DataStorageInfo databaseInfo = config.getConfig().getDataStorageInfo();
+        StringBuilder baseUrlBuilder = new StringBuilder();
+        baseUrlBuilder.append("jdbc:")
+            .append(databaseInfo.type().toLowerCase())
+            .append("://")
+            .append(databaseInfo.host())
+            .append(":")
+            .append(databaseInfo.port())
+            .append("/")
+            .append(databaseInfo.datebase());
+        if (databaseInfo.args()!=null && !databaseInfo.args().isEmpty()) {
+            if (databaseInfo.args().toLowerCase()!="null") {
+                baseUrlBuilder.append("?").append(databaseInfo.args());
+            }
+        }
+        String baseUrl = baseUrlBuilder.toString();
+        hikariConfig.setJdbcUrl(baseUrl);
+        hikariConfig.setDriverClassName(getDriverClass());
+        hikariConfig.setUsername(databaseInfo.username());
+        hikariConfig.setPassword(databaseInfo.password());
+        return new HikariDataSource(hikariConfig);
+    }
+
+    public String getDriverClass() {
+        return "com.mysql.cj.jdbc.Driver";
+    }
+
+    public HikariDataSource getDataSource() {
+        return dataSource;
+    }
+
+    @SneakyThrows
+    public void initTable() {
+        String createTableSql = """
+            CREATE TABLE IF NOT EXISTS playerData(
+                uuid VARCHAR(36) PRIMARY KEY,
+                enabled BOOLEAN NOT NULL DEFAULT FALSE,
+                displayCount BOOLEAN NOT NULL DEFAULT FALSE,
+                sneakToEnable BOOLEAN NOT NULL DEFAULT FALSE,
+                itemProtective BOOLEAN NOT NULL DEFAULT FALSE
+            )
+            """;
+        getDataSource().getConnection().prepareStatement(createTableSql).execute();
+    }
+
+    @SneakyThrows
+    public PlayerDataInfo getPlayerData(Player player) {
+        String uuid = player.getUniqueId().toString();
+        String lookupSql = """
+                SELECT * FROM playerData WHERE uuid=?
+                """;
+        PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
+        statement.setString(1, uuid);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return new PlayerDataInfo(
+                UUID.fromString(resultSet.getString("uuid")),
+                resultSet.getBoolean("enabled"),
+                resultSet.getBoolean("displayCount"),
+                resultSet.getBoolean("sneakToEnable"),
+                resultSet.getBoolean("itemProtective")
+            );
+        }
+        return null;
+    }
+    @SneakyThrows
+    public void savePlayerData(Player player, PlayerDataInfo playerData) {
+        String uuid = player.getUniqueId().toString();
+        String lookupSql = """
+                INSERT INTO playerData (uuid, enabled, displayCount, sneakToEnable, itemProtective) VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE enable=?, displayCount=?, sneakToEnable=?, itemProtective=?;
+                """;
+        PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
+        statement.setString(1, uuid);
+        statement.setBoolean(2, playerData.isEnabled());
+        statement.setBoolean(3, playerData.isDisplayCount());
+        statement.setBoolean(4, playerData.isSneakToEnable());
+        statement.setBoolean(5, playerData.isItemProtective());
+        statement.execute();
+    }
+
+    public void close() {
+        getDataSource().close();
+    }
+}

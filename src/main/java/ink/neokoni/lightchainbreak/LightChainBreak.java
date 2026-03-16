@@ -1,5 +1,6 @@
 package ink.neokoni.lightchainbreak;
 
+import ink.neokoni.lightchainbreak.configs.PlayerData;
 import ink.neokoni.lightchainbreak.papi.statusPapi;
 import ink.neokoni.lightchainbreak.utils.text;
 import org.bukkit.Bukkit;
@@ -18,7 +19,7 @@ public final class LightChainBreak extends JavaPlugin {
 
         regEvent();
         regCommand();
-        new file().reloadConfig(null);
+        file.loadAllConfigs();
         regPapi();
         regResidence();
     }
@@ -26,6 +27,7 @@ public final class LightChainBreak extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        PlayerData.close();
     }
 
     public static LightChainBreak getInstance() {

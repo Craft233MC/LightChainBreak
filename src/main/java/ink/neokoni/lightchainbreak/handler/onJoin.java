@@ -1,10 +1,11 @@
 package ink.neokoni.lightchainbreak.handler;
 
-import ink.neokoni.lightchainbreak.utils.file;
-import org.bukkit.configuration.file.YamlConfiguration;
+import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.configs.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class onJoin implements Listener {
@@ -12,26 +13,15 @@ public class onJoin implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    private boolean isBoolean(String str) {
-        if(str==null) return false;
-        return str.equals("true") || str.equals("false");
-    }
     @EventHandler
     public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        YamlConfiguration data = file.getConfig("playerData");
-        if(!isBoolean(data.getString(player.getUniqueId()+".enabled"))){
-            data.set(player.getUniqueId()+".enabled", false);
-        }
-        if(!isBoolean(data.getString(player.getUniqueId()+".display-count"))){
-            data.set(player.getUniqueId()+".display-count", false);
-        }
-        if(!isBoolean(data.getString(player.getUniqueId()+".sneak-to-enable"))){
-            data.set(player.getUniqueId()+".sneak-to-enable", false);
-        }
-         if(!isBoolean(data.getString(player.getUniqueId()+".item-protective"))){
-            data.set(player.getUniqueId()+".item-protective", false);
-        }
-        new file().saveConfig("playerData", data);
+        PlayerDataInfo thisPlayerData = PlayerData.getPlayerData(player, true);
+        if (thisPlayerData!=null) PlayerData.getPlayerData(player, false);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        PlayerData.removePlayerCacheData(event.getPlayer());
     }
 }

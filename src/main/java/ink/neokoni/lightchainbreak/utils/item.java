@@ -1,5 +1,6 @@
 package ink.neokoni.lightchainbreak.utils;
 
+import ink.neokoni.lightchainbreak.configs.PlayerData;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -42,7 +43,7 @@ public class item {
             }
         }
 
-        if (item.getDurability(i) < 1 && !file.getConfig("playerData").getBoolean( p.getUniqueId() + ".item-protective")) {
+        if (item.getDurability(i) < 1 && !PlayerData.getPlayerData(p.getPlayer(), false).isItemProtective()) {
             p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0F, 1.0F);
             p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
         }

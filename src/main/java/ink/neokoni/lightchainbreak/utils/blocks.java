@@ -1,5 +1,6 @@
 package ink.neokoni.lightchainbreak.utils;
 
+import ink.neokoni.lightchainbreak.configs.config;
 import org.bukkit.block.Block;
 
 public class blocks {
@@ -19,7 +20,7 @@ public class blocks {
     };
 
     public static Block[] getRelatives(Block block) {
-        return file.getConfig("config").getBoolean("diagonal-break", false)
+        return config.getConfig().isDiagonalBreak()
                 ? getBlocks(block, ALL_OFFSETS)
                 : getBlocks(block, ORTHOGONAL_OFFSETS);
     }

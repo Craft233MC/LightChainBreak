@@ -1,5 +1,7 @@
 package ink.neokoni.lightchainbreak;
 
+import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.configs.PlayerData;
 import ink.neokoni.lightchainbreak.utils.file;
 import ink.neokoni.lightchainbreak.utils.text;
 import net.kyori.adventure.text.Component;
@@ -8,8 +10,6 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +73,7 @@ public class commands implements CommandExecutor {
         }
 
         if (strings[0].equals("reload")){
-            new file().reloadConfig(commandSender);
+            file.reloadAllConfigs(commandSender);
             return true;
         }
         return true;
@@ -113,17 +113,18 @@ public class commands implements CommandExecutor {
             p.sendMessage(text.getLang("error.no-perms"));
             return;
         }
-        YamlConfiguration data = file.getConfig("playerData");
 
-        if(!data.getBoolean(p.getUniqueId()+".enabled")){
-            data.set(p.getUniqueId()+".enabled", true);
+        PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
+
+        if(!playerData.isEnabled()){
+            playerData.setEnabled(true);
             p.sendMessage(text.getLang("toggle.enabled"));
         } else {
-            data.set(p.getUniqueId()+".enabled", false);
+            playerData.setEnabled(false);
             p.sendMessage(text.getLang("toggle.disabled"));
         }
 
-        new file().saveConfig("playerData", data);
+        PlayerData.savePlayerData(p, playerData);
     }
 
     private void toggleSneakEnable(Player p){
@@ -132,16 +133,16 @@ public class commands implements CommandExecutor {
             return;
         }
 
-        YamlConfiguration data = file.getConfig("playerData");
-        if (data.getBoolean( p.getUniqueId()+".sneak-to-enable")) {
-            data.set( p.getUniqueId()+".sneak-to-enable", false);
+        PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
+        if (playerData.isSneakToEnable()) {
+            playerData.setSneakToEnable(false);
             p.sendMessage( text.getLang("toggle.sneak-to-disabled"));
         } else {
-            data.set( p.getUniqueId()+".sneak-to-enable", true);
+            playerData.setSneakToEnable(true);
             p.sendMessage( text.getLang("toggle.sneak-to-enabled"));
         }
 
-        new file().saveConfig("playerData", data);
+        PlayerData.savePlayerData(p, playerData);
     }
 
     private void toggleDisplayCount (Player p){
@@ -150,16 +151,16 @@ public class commands implements CommandExecutor {
             return;
         }
 
-         YamlConfiguration data = file.getConfig("playerData");
-         if (data.getBoolean( p.getUniqueId()+".display-count")) {
-             data.set( p.getUniqueId()+".display-count", false);
+         PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
+         if (playerData.isDisplayCount()) {
+             playerData.setDisplayCount(false);
              p.sendMessage( text.getLang("toggle.display-count-disabled"));
          } else {
-             data.set( p.getUniqueId()+".display-count", true);
+             playerData.setDisplayCount(true);
              p.sendMessage( text.getLang("toggle.display-count-enabled"));
          }
 
-        new file().saveConfig("playerData", data);
+        PlayerData.savePlayerData(p, playerData);
     }
 
     private void toggleItemProtective (Player p){
@@ -168,15 +169,15 @@ public class commands implements CommandExecutor {
             return;
         }
 
-         YamlConfiguration data = file.getConfig("playerData");
-         if (data.getBoolean( p.getUniqueId()+".item-protective")) {
-             data.set( p.getUniqueId()+".item-protective", false);
+         PlayerDataInfo playerData = PlayerData.getPlayerData(p, false);
+         if (playerData.isItemProtective()) {
+             playerData.setItemProtective(false);
              p.sendMessage( text.getLang("toggle.item-protective-disabled"));
          } else {
-             data.set( p.getUniqueId()+".item-protective", true);
+             playerData.setItemProtective(true);
              p.sendMessage( text.getLang("toggle.item-protective-enabled"));
          }
 
-        new file().saveConfig("playerData", data);
+        PlayerData.savePlayerData(p, playerData);
     }
 }

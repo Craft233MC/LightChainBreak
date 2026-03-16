@@ -5,21 +5,21 @@ import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import ink.neokoni.lightchainbreak.LightChainBreak;
+import ink.neokoni.lightchainbreak.configs.PlayerData;
+import ink.neokoni.lightchainbreak.configs.config;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
 public class checker {
-    private final YamlConfiguration config = file.getConfig("config");
-    private final YamlConfiguration playerData = file.getConfig("playerData");
-    private final Set<String> skipPerms = Set.of("", "none", "NONE", "null");
+    private final config.BaseConfig BaseConfig = config.getConfig();
+    private final Set<String> skipPerms = Set.of("", "none", "null");
     public boolean isAllowed(Block block, ItemStack tool, Player p) {
-        Set<String> groups = config.getConfigurationSection("groups").getKeys(true);
+        Set<String> groups = BaseConfig.getGroups().keySet();
         Material blockType = block.getType();
         Material toolType = tool.getType();
         for(String group : groups){
@@ -27,8 +27,8 @@ public class checker {
                 continue;
             }
 
-            List<String> tools = config.getStringList("groups."+group+".tools");
-            List<String> target = config.getStringList("groups."+group+".target");
+            List<String> tools = BaseConfig.getGroups().get(group).getTools();
+            List<String> target = BaseConfig.getGroups().get(group).getTarget();
 
             Set<Material> toolSet = new HashSet<>();
             Set<Material> targetSet = new HashSet<>();
@@ -48,7 +48,7 @@ public class checker {
     }
 
     private boolean hasPerms(Player p, String group){
-        String perms  = config.getString("groups."+group+".permission");
+        String perms  = BaseConfig.getGroups().get(group).getPermission().toLowerCase();
         if (skipPerms.contains(perms) || perms.isEmpty() || perms==null){
             return true;
         }
@@ -56,16 +56,15 @@ public class checker {
     }
 
     public boolean isMaxBlocks(int count){
-        return count >= config.getInt("max-break");
+        return count >= BaseConfig.getMaxBreak();
     }
 
     public boolean isPlayerEnabled(Player p){
-        YamlConfiguration playerData = file.getConfig("playerData");
-        return playerData.getBoolean( p.getUniqueId() + ".enabled");
+        return PlayerData.getPlayerData(p, false).isEnabled();
     }
 
     public boolean isSneaking(Player p){
-        if(playerData.getBoolean(p.getUniqueId()+".sneak-to-enable")){
+        if(PlayerData.getPlayerData(p, false).isSneakToEnable()){
             return !p.isSneaking();
         }
         return false;

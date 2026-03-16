@@ -1,95 +1,44 @@
 package ink.neokoni.lightchainbreak.utils;
 
 import ink.neokoni.lightchainbreak.LightChainBreak;
-import ink.neokoni.lightchainbreak.handler.onJoin;
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
+import ink.neokoni.lightchainbreak.configs.PlayerData;
+import ink.neokoni.lightchainbreak.configs.config;
+import ink.neokoni.lightchainbreak.configs.language;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.nio.file.Path;
 
 public class file {
     private static final  LightChainBreak plugin = LightChainBreak.getInstance();
-    private static YamlConfiguration config;
-    private static YamlConfiguration lang;
-    private static YamlConfiguration playerData;
+    private static Path dataPath = LightChainBreak.getInstance().getDataFolder().toPath();
 
-     public boolean isFileExist(String fileName){
-         return new File(plugin.getDataFolder(),  fileName+".yml").exists();
+    public static Path getFilePath(String path) {
+        return new File(dataPath.resolve(path).toUri()).toPath();
+    }
+
+    public static File getFile(String path) {
+        return new File(getFilePath(path).toUri());
+    }
+
+    public static boolean isFileExist(Path path) {
+        return path.toFile().exists();
+    }
+
+     public static void loadAllConfigs() {
+         config.init();
+         language.init();
+         PlayerData.init();
      }
 
-     public void createFile(String fileName, boolean create) {
-         if (create) {
-             new File(fileName+".yml");
-         } else {
-             plugin.saveResource(fileName+".yml", false);
-         }
-     }
+     public static void reloadAllConfigs(@Nullable CommandSender sender) {
+        PlayerData.close();
 
-     public void reloadConfig(@Nullable CommandSender sender){
-         if (config==null) {
-             reloadConfigLogic();
-             return;
-         }
+        loadAllConfigs();
 
-         ScheduledTask reloadTask = Bukkit.getAsyncScheduler().runNow(plugin, task -> reloadConfigLogic());
-         if (sender != null){
-             Bukkit.getAsyncScheduler().runAtFixedRate(plugin, task -> {
-                 if (reloadTask.getExecutionState().equals(ScheduledTask.ExecutionState.FINISHED)){
-                     sender.sendMessage(text.getLang("reload"));
-                     task.cancel();
-                 }
-             }, 50, 50, TimeUnit.MILLISECONDS); // 1000 / 20 = 50ms = 1tick
-         }
-     }
-
-     public void reloadConfigLogic(){
-         config = loadConfig("config", false);
-         lang = loadConfig("lang", false);
-         playerData = loadConfig("playerData", true);
-
-         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-             new onJoin().onPlayerJoin(new PlayerJoinEvent(player, Component.empty()));
-         }
-     }
-
-     public static YamlConfiguration getConfig(String fileName) {
-         return switch (fileName) {
-             case "config" -> config;
-             case "lang" -> lang;
-             case "playerData" -> playerData;
-             default -> null;
-         };
-     }
-
-     public YamlConfiguration loadConfig(String fileName, boolean create) {
-         if(!isFileExist(fileName)){
-             createFile(fileName, create);
-         }
-         return YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), fileName+".yml"));
-     }
-
-     public boolean saveConfig(String fileName, YamlConfiguration config){
-         try {
-             config.save(new File(plugin.getDataFolder(), fileName+".yml"));
-
-             switch (fileName) {
-                 case "config" -> file.config = config;
-                 case "lang" -> lang = config;
-                 case "playerData" -> playerData = config;
-             }
-
-             return true;
-         } catch (IOException e) {
-             e.printStackTrace();
-             return false;
-         }
+        if (sender!=null) {
+            sender.sendMessage(text.getLang("reload"));
+        }
      }
 }
