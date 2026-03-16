@@ -17,7 +17,7 @@ public class MariadbAdapter extends SQLAdapter {
     @Override
     public void initTable() {
         String createTableSql = """
-            CREATE TABLE IF NOT EXISTS playerData(
+            CREATE TABLE IF NOT EXISTS PlayerData(
                 uuid UUID PRIMARY KEY,
                 enabled BOOLEAN NOT NULL DEFAULT FALSE,
                 displayCount BOOLEAN NOT NULL DEFAULT FALSE,

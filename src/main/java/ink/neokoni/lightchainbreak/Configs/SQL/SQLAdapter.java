@@ -98,6 +98,11 @@ public class SQLAdapter {
         statement.setBoolean(3, playerData.isDisplayCount());
         statement.setBoolean(4, playerData.isSneakToEnable());
         statement.setBoolean(5, playerData.isItemProtective());
+
+        statement.setBoolean(6, playerData.isEnabled());
+        statement.setBoolean(7, playerData.isDisplayCount());
+        statement.setBoolean(8, playerData.isSneakToEnable());
+        statement.setBoolean(9, playerData.isItemProtective());
         statement.execute();
     }
 
