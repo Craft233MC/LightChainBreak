@@ -7,8 +7,10 @@ import ink.neokoni.lightchainbreak.Configs.Datas.PlayerDataInfo;
 import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class SQLAdapter {
@@ -51,7 +53,6 @@ public class SQLAdapter {
         return dataSource;
     }
 
-    @SneakyThrows
     public void initTable() {
         String createTableSql = """
             CREATE TABLE IF NOT EXISTS PlayerData(
@@ -62,28 +63,35 @@ public class SQLAdapter {
                 itemProtective BOOLEAN NOT NULL DEFAULT FALSE
             )
             """;
-        getDataSource().getConnection().prepareStatement(createTableSql).execute();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement(createTableSql).execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @SneakyThrows
     public PlayerDataInfo getPlayerData(Player player) {
         String uuid = player.getUniqueId().toString();
         String lookupSql = """
                 SELECT * FROM PlayerData WHERE uuid=?
                 """;
-        PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
-        statement.setString(1, uuid);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            return new PlayerDataInfo(
-                UUID.fromString(resultSet.getString("uuid")),
-                resultSet.getBoolean("enabled"),
-                resultSet.getBoolean("displayCount"),
-                resultSet.getBoolean("sneakToEnable"),
-                resultSet.getBoolean("itemProtective")
-            );
+        try (Connection connection = getDataSource().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(lookupSql);
+            statement.setString(1, uuid);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new PlayerDataInfo(
+                        UUID.fromString(resultSet.getString("uuid")),
+                        resultSet.getBoolean("enabled"),
+                        resultSet.getBoolean("displayCount"),
+                        resultSet.getBoolean("sneakToEnable"),
+                        resultSet.getBoolean("itemProtective")
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
     @SneakyThrows
     public void savePlayerData(Player player, PlayerDataInfo playerData) {
@@ -92,18 +100,20 @@ public class SQLAdapter {
                 INSERT INTO PlayerData (uuid, enabled, displayCount, sneakToEnable, itemProtective) VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE enabled=?, displayCount=?, sneakToEnable=?, itemProtective=?;
                 """;
-        PreparedStatement statement = getDataSource().getConnection().prepareStatement(lookupSql);
-        statement.setString(1, uuid);
-        statement.setBoolean(2, playerData.isEnabled());
-        statement.setBoolean(3, playerData.isDisplayCount());
-        statement.setBoolean(4, playerData.isSneakToEnable());
-        statement.setBoolean(5, playerData.isItemProtective());
+        try (Connection connection = getDataSource().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(lookupSql);
+            statement.setString(1, uuid);
+            statement.setBoolean(2, playerData.isEnabled());
+            statement.setBoolean(3, playerData.isDisplayCount());
+            statement.setBoolean(4, playerData.isSneakToEnable());
+            statement.setBoolean(5, playerData.isItemProtective());
 
-        statement.setBoolean(6, playerData.isEnabled());
-        statement.setBoolean(7, playerData.isDisplayCount());
-        statement.setBoolean(8, playerData.isSneakToEnable());
-        statement.setBoolean(9, playerData.isItemProtective());
-        statement.execute();
+            statement.setBoolean(6, playerData.isEnabled());
+            statement.setBoolean(7, playerData.isDisplayCount());
+            statement.setBoolean(8, playerData.isSneakToEnable());
+            statement.setBoolean(9, playerData.isItemProtective());
+            statement.execute();
+        }
     }
 
     public void close() {

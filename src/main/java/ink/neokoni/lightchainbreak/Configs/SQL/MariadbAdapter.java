@@ -2,6 +2,9 @@ package ink.neokoni.lightchainbreak.Configs.SQL;
 
 import lombok.SneakyThrows;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class MariadbAdapter extends SQLAdapter {
     public MariadbAdapter() {
         initSql();
@@ -13,7 +16,6 @@ public class MariadbAdapter extends SQLAdapter {
         return "org.mariadb.jdbc.Driver";
     }
 
-    @SneakyThrows
     @Override
     public void initTable() {
         String createTableSql = """
@@ -25,6 +27,10 @@ public class MariadbAdapter extends SQLAdapter {
                 itemProtective BOOLEAN NOT NULL DEFAULT FALSE
             )
             """;
-        getDataSource().getConnection().prepareStatement(createTableSql).execute();
+        try (Connection connection = getDataSource().getConnection()) {
+            connection.prepareStatement(createTableSql).execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
