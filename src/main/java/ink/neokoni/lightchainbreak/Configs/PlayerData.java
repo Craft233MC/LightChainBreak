@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerData {
     private static File playerDataYamlFile;
-    private static String playerDataYamlFileName = "PlayerData.yml";
+    private static String playerDataYamlFileName = "playerData.yml";
     @Getter private static String dataType;
     private static YamlConfiguration playerDataYaml;
     private static SQLAdapter sqlAdapter;
