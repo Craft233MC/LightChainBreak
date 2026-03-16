@@ -1,11 +1,12 @@
 package ink.neokoni.lightchainbreak.handler;
 
+import ink.neokoni.lightchainbreak.configs.Datas.PlayerDataInfo;
+import ink.neokoni.lightchainbreak.configs.PlayerData;
 import ink.neokoni.lightchainbreak.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,17 +17,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 
 public class onBreak implements Listener {
+    private Map<Player, Set<Block>> breakingPlayers = new HashMap<>();
     public void register(JavaPlugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     private void onBlockBreak(BlockBreakEvent event) {
-        YamlConfiguration playerData = file.getConfig("playerData");
-
         Player player = event.getPlayer();
-        ItemStack tool = player.getInventory().getItemInMainHand();
         Block startBlock = event.getBlock();
+        if (breakingPlayers.containsKey(player)) {
+            if (breakingPlayers.get(player).contains(startBlock)) {
+                return; // Skip if the block is already being processed for this player
+            }
+        }
+        PlayerDataInfo playerData = PlayerData.getPlayerData(player, false);
+        ItemStack tool = player.getInventory().getItemInMainHand();
         Set<Block> visited = new HashSet<>();
         Queue<Block> queue = new LinkedList<>();
 
@@ -35,7 +41,7 @@ public class onBreak implements Listener {
             !new checker().isAllowed(startBlock, tool, player) || // check permission, block , tool
             !new checker().isPlayerEnabled(player) || // is player enabled chain break
             startBlock.getDrops(tool).isEmpty()  || // can be tool break and drop items?
-            new checker().isSneaking(player) || // playerData.yml playerUUID.sneaking-to-enable
+            new checker().isSneaking(player) || // PlayerData.yml playerUUID.sneaking-to-enable
             !new checker().hasResidencePerms(startBlock.getLocation(), player) // is player has residence perms?
         ){
                 return;
@@ -51,7 +57,7 @@ public class onBreak implements Listener {
             maxCanBreak = enchantments.getMaxCanBreakFromEnchantment(tool);
         }
 
-        if (!playerData.getBoolean(player.getUniqueId()+".item-protective")){
+        if (!playerData.isItemProtective()){
             maxCanBreak++;
         }
 
@@ -76,15 +82,15 @@ public class onBreak implements Listener {
                 }
             }
         }
-
+        breakingPlayers.put(player, visited);
         for (Block block : visited) {
-            block.breakNaturally(tool);
             if(item.hasDurability(tool)){
-                item.tryDamge(tool, player);
+                player.breakBlock(block);
             }
         }
+        breakingPlayers.remove(player);
 
-        if(playerData.getBoolean(player.getUniqueId()+".display-count")){
+        if(playerData.isDisplayCount()){
             player.sendActionBar(text.getLang("msg.count-breaks", "%count%", String.valueOf(visited.size())));
         }
     }
