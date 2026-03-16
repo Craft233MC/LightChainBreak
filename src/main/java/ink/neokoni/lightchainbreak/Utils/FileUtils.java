@@ -26,6 +26,10 @@ public class FileUtils {
         return path.toFile().exists();
     }
 
+    public static boolean isFileExist(String path) {
+        return dataPath.resolve(path).toFile().exists();
+    }
+
      public static void loadAllConfigs() {
          Config.init();
          Language.init();

@@ -18,7 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerData {
     private static File playerDataYamlFile;
-    private static String playerDataYamlFileName = "playerData.yml";
+    private final static String oldPlayerDataYamlFileName = "playerData.yml";
+    private final static String playerDataYamlFileName = "PlayerData.yml";
     @Getter private static String dataType;
     private static YamlConfiguration playerDataYaml;
     private static SQLAdapter sqlAdapter;
@@ -79,6 +80,10 @@ public class PlayerData {
     }
 
     public static void initYaml() {
+        if (FileUtils.isFileExist("playerData.yml")) {
+            LightChainBreak.getInstance().getLogger().info("Found old playerData.yml, renaming to PlayerData.yml");
+            FileUtils.getFile("playerData.yml").renameTo(FileUtils.getFile(playerDataYamlFileName));
+        }
         playerDataYamlFile = FileUtils.getFile(playerDataYamlFileName);
         playerDataYaml = YamlConfiguration.loadConfiguration(playerDataYamlFile);
         dataType = "yaml";
