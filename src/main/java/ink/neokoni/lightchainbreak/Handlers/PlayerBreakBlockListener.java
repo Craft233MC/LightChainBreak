@@ -83,15 +83,17 @@ public class PlayerBreakBlockListener implements Listener {
             }
         }
         breakingPlayers.put(player, visited);
+        int realBreaks = 0;
         for (Block block : visited) {
             if(ItemUtils.canBreak(tool, playerData.isItemProtective())){
                 player.breakBlock(block);
+                realBreaks++;
             }
         }
         breakingPlayers.remove(player);
 
         if(playerData.isDisplayCount()){
-            player.sendActionBar(TextUtils.getLang("msg.count-breaks", "%count%", String.valueOf(visited.size())));
+            player.sendActionBar(TextUtils.getLang("msg.count-breaks", "%count%", String.valueOf(realBreaks)));
         }
     }
 }
